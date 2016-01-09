@@ -1,0 +1,116 @@
+.navbar-brand{
+	font-family: Lato;
+	
+}
+
+.navbar-header{
+	width: 100px;
+}
+
+.navbar-right{
+	font-family: Lato;
+}
+
+.title{
+  padding: 125px 15px 0px 15px;
+  text-align: center;
+  font-family: Lato;
+  font-size: 75px;
+  color: white;
+  font-weight: 50%;
+}
+
+.subtitle{
+
+	text-align: center;
+	font-family: Lato;
+	padding-bottom: 75px;
+	color: white;
+}
+
+.head{
+
+	width:200px;
+}
+
+
+
+.closer{
+
+	background: url("/images/home.jpg") fixed no-repeat;
+	background-size: cover;
+
+}
+
+.btn.log-in-button{
+	border-radius: 0px;
+	background: gray;
+	
+	font-family: Lato;
+	opacity: 0.75;
+	min-height: 50px;
+	font-size: 25px;
+	 display: inline-block;
+  padding: 8px;
+  color: black;
+  border: 1px solid #fff;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  display: inline;
+}
+
+.btn.sign-up-button{
+	border-radius: 0px;
+	background-color: transparent;
+	background-color: gray;
+	opacity: 0.75;
+	font-family: Lato;
+	color: white;
+	opacity: 100%
+	min-height: 50px;
+	color: black;
+  border: 1px solid #fff;
+	font-size: 25px;
+	display: inline;
+}
+
+.btn.btn-cancel-action{
+	border-radius: 0px;
+	font-family: Lato;
+}
+
+.btn.btn-login-submit{
+	border-radius: 0px;
+	font-family: Lato;
+}
+
+
+
+.sign-up-form{
+	display: none;
+	margin-top: -30px;
+}
+
+.log-in-form{
+	display: none;
+	margin-top: -30px;
+}
+
+.login-title{
+	text-align: center;
+	font-family: Lato;
+}
+
+.signup-title{
+	text-align: center;
+	font-family: Lato;
+}
+.account{
+	text-align: center;
+}
+
+.no-account{
+	text-align: center;
+}
+
