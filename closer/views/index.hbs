@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>{{title}} Form</h1>
+    <form name="adduser" method="post" action="/adduser">
+      <ul>
+        <li>Username</li>
+
+        <li><input type="text" placeholder="Username" name="username"></li>
+
+        <li>Favorite Fruit</li>
+        
+        <li><input type="text" placeholder="Favorite Fruit" name="userfruit"></li>
+          
+        <li><button type="submit">Submit</button></li>
+      </ul>
+    </form>
+    <form name="deleteuser" method="post" action="/deleteuser">
+      <ul>
+        <li>User to Delete</li>
+
+        <li><input type="text" placeholder="Username" name="username"></li>
+          
+        <li><button type="submit">Submit</button></li>
+      </ul>
+    </form>
+    <a href="/userlist">See userlist</a>
+  </body>
+</html>
