@@ -45,7 +45,7 @@ router.post("/signup", function(req, res, next){
      else if (password == passwordcheck) { 
 
       	db.users.insert({user: username, password: password}, function(err){
-      		res.send('Thanks for signing up ' + username );
+      		res.render("signup", {title: "Closer"});
       	});
         
       }
