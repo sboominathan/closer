@@ -62,19 +62,19 @@
     	<div class = "col-md-3"></div>
         <div class="col-md-6">
             <div class="well login-box log-in-form">
-                <form action="">
+                <form action="/login" method = "post">
                     <legend class = "login-title">Login</legend>
                     <div class="form-group">
                         <label for="username-email">Username</label>
-                        <input value='' id="username-email" placeholder="Username" type="text" class="form-control" />
+                        <input value='' name = "username" id="username-email" placeholder="Username" type="text" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input id="password" value='' placeholder="Password" type="text" class="form-control" />
+                        <input id="password" name = "password" value='' placeholder="Password" type="password" class="form-control" required/>
                     </div>
                     <div class="form-group text-center">
-                        <button class="btn btn-default btn-cancel-action ">Cancel</button>
-                        <input type="submit" class="btn btn-default btn-login-submit" value="Login" />
+                        <button class="btn btn-default btn-cancel-action col-md-6">Cancel</button>
+                        <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Login" />
                     </div>
                     <a href = "#" class = "no-account"> <p> Don't have an account?</p> </a>
                 </form>
@@ -85,33 +85,37 @@
 
 <div class="container">
     <div class="row">
-    	<div class = "col-md-3"></div>
+      <div class = "col-md-3"></div>
         <div class="col-md-6">
             <div class="well login-box sign-up-form">
-                <form action="">
-                    <legend class = "signup-title">Sign Up</legend>
+                <form action="/signup" method = "post">
+                    <legend class = "signup-title">SIGN UP</legend>
                     <div class="form-group">
                         <label for="username-email"> Username</label>
-                        <input value='' id="username-email" placeholder="Username" type="text" class="form-control" />
+                        <input name = "username" value='' id="username-email" placeholder="Username" type="text" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input id="email" value='' placeholder="Email" type="text" class="form-control" />
+                        <input name = "email" id="email" value='' placeholder="Email" type="email" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input id="password" value='' placeholder="Password" type="text" class="form-control" />
+                        <input name = "password" id="password" value='' placeholder="Password" type="password" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label for="password">Confirm Password</label>
-                        <input id="password" value='' placeholder="Password Again" type="text" class="form-control" />
+                        <input name = "passwordcheck" id="password" value='' placeholder="Password Again" type="password" min-length = "8" class="form-control" required />
                     </div>
                     <div class="form-group text-center">
-                        <button class="btn btn-default btn-cancel-action">Cancel</button>
-                        <input type="submit" class="btn btn-default btn-login-submit" value="Login" />
+                        <button class="btn btn-default btn-cancel-action col-md-6">Cancel</button>
+                        <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Sign Up" />
+                         <div class = "row"></div>
                     </div>
+                   
+                  <div class = "account"> <a href = "#" class = "yes-account"> <p> Already have an account? </p> </a> </div>
+
                 </form>
-                <div class = "account"> <a href = "#" class = "yes-account"> <p> Already have an account? </p> </a> </div>
+
             </div>
         </div>
     </div>
