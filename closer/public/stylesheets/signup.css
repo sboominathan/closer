@@ -1,0 +1,38 @@
+.row{
+
+	margin-top: 75 px;
+	padding-top: 75px;
+	
+}
+.legend{
+	padding-bottom: 10px;
+}
+
+.login-title{
+	text-align: center;
+	font-size: 20px;
+}
+
+.signup-form{
+	
+	font-family: Lato;
+}
+
+.btn.btn-cancel-action{
+	border-radius: 0;
+}
+.btn.btn-login-submit{
+	border-radius: 0;
+}
+
+.class-input{
+	margin-left: -12px;
+}
+
+.container2{
+	padding-top: -50px;
+}
+
+.form-group-options{
+	margin-left: -14px;
+}
