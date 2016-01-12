@@ -10,12 +10,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
     <script src = "/javascripts/login.js"></script>
+    <script src = "/javascripts/fbBasic.js"></script>
 
   </head>
 
 
   <body class = 'closer'>
-    
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -73,6 +74,9 @@
                         <label for="password">Password</label>
                         <input id="password" name = "password" value='' placeholder="Password" type="password" class="form-control" required/>
                     </div>
+                    <div class="fb-btn"><!-- fb button -->
+                      <p><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button></p>
+                    </div>
                     <div class="form-group text-center">
                         <button class="btn btn-default btn-cancel-action col-md-6">Cancel</button>
                         <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Login" />
@@ -107,6 +111,9 @@
                     <div class="form-group">
                         <label for="password">Confirm Password</label>
                         <input name = "passwordcheck" id="password" value='' placeholder="Password Again" type="password" min-length = "8" class="form-control" required />
+                    </div>
+                    <div class="fb-btn"><!-- fb button -->
+                      <p><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button></p>
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-default btn-cancel-action col-md-6">Cancel</button>

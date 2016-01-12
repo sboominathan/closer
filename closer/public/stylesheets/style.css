@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+fb-btn {
+	text-align: center;
+	position: relative;
+}
