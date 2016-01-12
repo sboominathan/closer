@@ -26,7 +26,9 @@ router.post('/login', function(req, res, next) {
 
        		currUser = peeps[0];
        		if (currUser.filledOut){
-       			res.render("matches", {title: "Closer"});
+       			db.users.find().toArray(function(err, peeps){
+					res.json(peeps);
+				})
        		}
        		else{
        			res.render("signup", {title: "Closer"});
@@ -73,10 +75,8 @@ router.post("/signup", function(req, res, next){
 
        		currUser = peeps[0];
 
-       		
       	})
-      	
-        
+      	  
       }
     
      });
@@ -111,8 +111,11 @@ router.post("/userinfo", function(req,res,next){
       }
       
     }
-		)		
-	res.render('signup', { title: 'Closer' });
+	)	
+	db.users.find().toArray(function(err, peeps){
+		res.json(peeps);
+	})
+	
 
 })
 

@@ -38,7 +38,8 @@ $(".yes-account").click(
 	)
 
 $(".btn-cancel-action").click(
-	function(){
+	function(e){
+		e.preventDefault();
 		$(".log-in-form").css("display", "none");
 		$(".sign-up-form").css("display", "none");
 		$(".log-in-button").css("display", "block");
