@@ -16,6 +16,7 @@
 .signup-form{
 	
 	font-family: Lato;
+	opacity: 0.85;
 }
 
 .btn.btn-cancel-action{
@@ -25,14 +26,12 @@
 	border-radius: 0;
 }
 
-.class-input{
-	margin-left: -12px;
+.closer{
+
+	background: url("/images/home.jpg") fixed no-repeat;
+	background-size: cover;
+
 }
 
-.container2{
-	padding-top: -50px;
-}
 
-.form-group-options{
-	margin-left: -14px;
-}
+

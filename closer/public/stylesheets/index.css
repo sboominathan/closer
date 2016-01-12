@@ -90,11 +90,13 @@
 .sign-up-form{
 	display: none;
 	margin-top: -30px;
+	opacity: 0.85;
 }
 
 .log-in-form{
 	display: none;
 	margin-top: -30px;
+	opacity:0.85;
 }
 
 .login-title{
