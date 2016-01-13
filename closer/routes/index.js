@@ -118,10 +118,8 @@ router.post("/userinfo", function(req,res,next){
       }
       
     }
-<<<<<<< HEAD
-	);
-=======
-	)	
+
+	);	
 	db.users.find().toArray(function(err, peeps){
 		var currCourses = currUser.courses;
 
@@ -130,13 +128,12 @@ router.post("/userinfo", function(req,res,next){
 		/*for (var i = 0; i< peeps.length; i++){
 			//get array of 
 		}*/
-		res.json(peeps.slice(0,5));
+		//res.json(peeps.slice(0,5
 
 		
 	})
->>>>>>> 632cf8a49bed9046a8be5de851398d3190f61ec3
 	
-  res.render("userpage", {title: "Closer", user: currUser.user, college: college, year: year, bio: bio})
+  res.render("userpage", {title: "Closer", user: currUser.user})
 
 });
 
@@ -206,8 +203,22 @@ router.get("/search", function(req,res,next){
             getIndex: function (index) { return index.toString(); }
         }
     });
+});
+
+// Send user to userpage when they click to see their profile
+router.get("/userview/:username", function(req, res, next) {
+  var username = currUser.user;
+  res.render("userpage", {title: "Closer", user: currUser });
+});
 
 
-})
+// Send user to matches page when they are on user page and click "Home"
+router.get("/home/:username", function(req, res, next) {
+  var firstMatches = matchArray.slice(posInMatch,5);
+  var username = currUser.user;
+
+  //Fix matches
+  res.render("matches", { users: firstMatches, username :username });
+});
 
 module.exports = router;
