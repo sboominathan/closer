@@ -107,17 +107,16 @@ router.post("/userinfo", function(req,res,next){
         gender: gender,
         courses: courses,
         bio:bio,
-        filledOut: true
+        filledOut: true,
+        discoverable: false,
       }
       
     }
-	)	
-	db.users.find().toArray(function(err, peeps){
-		res.json(peeps);
-	})
+	);
 	
+  res.render("userpage", {title: "Closer", user: currUser.user, college: college, year: year, bio: bio})
 
-})
+});
 
 //SHORTCUT FOR SIGNUP (TESTING)
 
@@ -139,7 +138,7 @@ router.get("/about", function(req,res,next){
 
 router.get("/contact", function(req,res,next){
 
-	res.render("contact", {title: "Closer"});
+	res.render("contact", {title: "Closer"}); 
 
 });
 
@@ -151,6 +150,8 @@ router.get("/logout", function(req,res,next){
 	res.redirect("/");
 	
 });
+
+//UPDATE INFO -- FORM ON USERPAGE
 
 
 module.exports = router;
