@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db-setup.js");
 var currUser = null;
+var matchArray = [];
+var posInMatch = 0
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,6 +17,7 @@ router.post('/login', function(req, res, next) {
   
   var username = req.body.username;
   var password = req.body.password;
+  posInMatch = 0;
   
   db.users.find({user: username, password: password}).toArray(function (err, peeps) {
     if (peeps.length > 0) {
@@ -26,8 +29,11 @@ router.post('/login', function(req, res, next) {
 
        		currUser = peeps[0];
        		if (currUser.filledOut){
-       			db.users.find().toArray(function(err, peeps){
-					res.json(peeps);
+       			db.users.find().toArray(function(err, data){
+       				matchArray = data;
+					var firstMatches = data.slice(posInMatch,5);
+					var username = currUser.user
+					res.render("matches", {users: firstMatches, username :username});
 				})
        		}
        		else{
@@ -112,7 +118,23 @@ router.post("/userinfo", function(req,res,next){
       }
       
     }
+<<<<<<< HEAD
 	);
+=======
+	)	
+	db.users.find().toArray(function(err, peeps){
+		var currCourses = currUser.courses;
+
+		//DESIGN RANKING ALGORITHMS AND SET 
+
+		/*for (var i = 0; i< peeps.length; i++){
+			//get array of 
+		}*/
+		res.json(peeps.slice(0,5));
+
+		
+	})
+>>>>>>> 632cf8a49bed9046a8be5de851398d3190f61ec3
 	
   res.render("userpage", {title: "Closer", user: currUser.user, college: college, year: year, bio: bio})
 
@@ -143,15 +165,49 @@ router.get("/contact", function(req,res,next){
 });
 
 //REROUTES TO FRONT PAGE, RESETS CURRENT USER TO NULL
+//ACCESSED BY LOGOUT BUTTON ON NAVBAR ON EVERY PAGE
 
 router.get("/logout", function(req,res,next){
 	console.log("hihi")
 	var currUser = null;
 	res.redirect("/");
+	posInMatch = 0;
+	matchArray = [];
 	
 });
 
 //UPDATE INFO -- FORM ON USERPAGE
 
+
+router.get("/next", function(req,res,next){
+
+	posInMatch +=5;
+	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
+	var username = currUser.user;
+	res.render("matches",{users: firstMatches, username :username} );
+
+});
+
+router.get("/previous", function(req,res,next){
+
+	posInMatch -=5;
+	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
+	var username = currUser.user;
+	res.render("matches",{users: firstMatches, username :username} );
+
+});
+
+router.get("/search", function(req,res,next){
+
+	var username = currUser.user;
+	res.render("search", {title: "Closer", username: username,
+
+		helpers: {
+            getIndex: function (index) { return index.toString(); }
+        }
+    });
+
+
+})
 
 module.exports = router;
