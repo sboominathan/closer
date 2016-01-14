@@ -49,4 +49,18 @@ $(".btn-cancel-action").click(
 
 	)
 
+$("#login").on("keydown", "input", function(e){
+
+	if (e.keyCode == 13){
+		$("#login").submit();
+	}
+});
+
+$("#signup").on("keydown", "input", function(e){
+
+	if (e.keyCode == 13){
+		$("#signup").submit();
+	}
+});
+
 })

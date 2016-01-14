@@ -33,7 +33,9 @@ router.post('/login', function(req, res, next) {
        				matchArray = data;
 					var firstMatches = data.slice(posInMatch,5);
 					var username = currUser.user
-					res.render("matches", {users: firstMatches, username :username});
+					var groups = currUser.groups
+
+					res.render("matches", {users: firstMatches, username: username, groups: groups});
 				})
        		}
        		else{
@@ -113,20 +115,18 @@ router.post("/userinfo", function(req,res,next){
         gender: gender,
         courses: courses,
         bio:bio,
-        filledOut: true
+        filledOut: true,
+        groups: []
       }
       
     }
 	)	
 	db.users.find().toArray(function(err, peeps){
-		var currCourses = currUser.courses;
-
-		//DESIGN RANKING ALGORITHMS AND SET 
-
-		/*for (var i = 0; i< peeps.length; i++){
-			//get array of 
-		}*/
-		res.json(peeps.slice(0,5));
+		
+		
+		var firstMatches = peeps.slice(posInMatch,5);
+		var username = currUser.user
+		res.render("matches", {users: firstMatches, username :username, groups: currUser.groups});
 
 		
 	})
@@ -176,7 +176,7 @@ router.get("/next", function(req,res,next){
 	posInMatch +=5;
 	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
 	var username = currUser.user;
-	res.render("matches",{users: firstMatches, username :username} );
+	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
 
 });
 
@@ -185,7 +185,7 @@ router.get("/previous", function(req,res,next){
 	posInMatch -=5;
 	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
 	var username = currUser.user;
-	res.render("matches",{users: firstMatches, username :username} );
+	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
 
 });
 
@@ -194,10 +194,7 @@ router.get("/search", function(req,res,next){
 	var username = currUser.user;
 	res.render("search", {title: "Closer", username: username,
 
-		helpers: {
-            getIndex: function (index) { return index.toString(); }
-        }
-    });
+		});
 
 
 })
