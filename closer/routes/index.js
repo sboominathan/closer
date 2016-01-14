@@ -4,6 +4,7 @@ var db = require("../db-setup.js");
 var currUser = null;
 var matchArray = [];
 var posInMatch = 0
+var algy = require("../matches_handler.js");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -167,7 +168,28 @@ router.get("/logout", function(req,res,next){
 });
 
 //UPDATE INFO -- FORM ON USERPAGE
+router.post("/update/:username", function(req, res, next) {
+  db.users.update(
+    { user: req.params.username },
+    {
+      $set: {
+        college: req.body.college,
+        year: req.body.year,
+        courses: req.body.courses,
+        bio:req.body.bio,
+        discoverable: req.body.discoverable
 
+      }
+      
+    }
+
+  );
+
+  firstMatches = matchArray.slice(posInMatch,posInMatch+5)
+  var username = currUser.user;
+  res.render("matches", {users: firstMatches, username :username, groups:currUser,groups} );
+
+});
 
 router.get("/next", function(req,res,next){
 

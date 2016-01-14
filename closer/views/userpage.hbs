@@ -8,6 +8,7 @@
 		<!-- Scripts -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="/javascripts/signup.js"></script>
 	</head>
 
 	<body class = 'closer'>
@@ -25,7 +26,7 @@
         		</div>
         		<div id="navbar" class="collapse navbar-collapse">
           			<ul class="nav navbar-nav navbar-right">
-                  <li><a href="/home/{{ user.user }}">Home</li>
+                  <li><a href="/home/{{ user.user }}">Home</a></li>
             			<li><a href="/about">About</a></li>
             			<li><a href="#contact">Contact</a></li>
             			<li><a href="/logout">Logout</a></li>
@@ -69,19 +70,19 @@
         		<div class ="col-md-3"></div>
         		<div class="col-md-6">
             		<div class="well signup-box signup-form">
-                		<form action="/userinfo" method = "post">
+                		<form action="/update" method = "post">
                     		<legend class = "login-title">Update Your Information Here<br /></legend>
                     		
                     		<!-- College -->
                     		<div class="form-group">
                         		<label for="college">College</label>
-                        		<input name = "college" id="user-college" placeholder="University Name" type="text" class="form-control" required />
+                        		<input value={{ user.college }} name ="college" id="user-college" placeholder="University Name" type="text" class="form-control" required />
                         	</div>
 
                     		<!-- Class year -->
                     		<div class="form-group ">
                       			<label for="year">Year:</label>
-                      			<select class="form-control" id="sel1" name = "year">
+                      			<select class="form-control" id="sel1" name = "year" value={{user.year}}>
                         			<option>Freshman</option>
                         			<option>Sophomore</option>
                         			<option>Junior</option>
@@ -106,7 +107,7 @@
                           	<label for="bio"></label>
                         		<div>
                          			<p> Short Bio</p>
-                          			<textarea class="form-control" rows="5" id="bio" name = "bio"></textarea>
+                          			<textarea class="form-control" rows="5" id="bio" name = "bio" value={{user.bio}}></textarea>
                       			</div>
                     		</div>
 
