@@ -125,7 +125,6 @@ router.post("/userinfo", function(req,res,next){
 
 	);
 
-	})
 	
   res.render("userpage", {title: "Closer", user: currUser});
 
