@@ -116,27 +116,18 @@ router.post("/userinfo", function(req,res,next){
         courses: courses,
         bio:bio,
         filledOut: true,
-        groups: []
-        discoverable: false,
+        groups: [],
+        discoverable: false
 
       }
       
     }
 
-	);	
-	db.users.find().toArray(function(err, peeps){
+	);
 
-		
-		
-		var firstMatches = peeps.slice(posInMatch,5);
-		var username = currUser.user
-		res.render("matches", {users: firstMatches, username :username, groups: currUser.groups});
-
-
-		
 	})
 	
-  res.render("userpage", {title: "Closer", user: currUser})
+  res.render("userpage", {title: "Closer", user: currUser});
 
 });
 
