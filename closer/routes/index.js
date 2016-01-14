@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var db = require("../db-setup.js");
+var db = require("../db-setup");
 var currUser = null;
-var matchArray = [];
-var posInMatch = 0
-var algy = require("../matches_handler.js");
+var rankingAlgy = require("../matches_handler");
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,8 +17,8 @@ router.post('/login', function(req, res, next) {
   
   var username = req.body.username;
   var password = req.body.password;
-  posInMatch = 0;
   
+  //attempt to pull user from database
   db.users.find({user: username, password: password}).toArray(function (err, peeps) {
     if (peeps.length > 0) {
       
@@ -29,26 +28,36 @@ router.post('/login', function(req, res, next) {
       db.users.find({user:username}).toArray(function(err,peeps){
 
        		currUser = peeps[0];
-       		if (currUser.filledOut){
-       			db.users.find().toArray(function(err, data){
-       				matchArray = data;
-					var firstMatches = data.slice(posInMatch,5);
-					var username = currUser.user
-					var groups = currUser.groups
-
-					res.render("matches", {users: firstMatches, username: username, groups: groups});
-				})
+          console.log(currUser.user);
+       		//check if filled out
+          if (currUser.filledOut){
+            
+            //run ranking algorithm, retrieve matches from db.matches
+            rankingAlgy(username);
+            var matchArray;
+            var pos;
+       			db.matches.find({user: username}).toArray(function(err, data){
+       				matchArray = data[0].yes;
+              pos = data[0].pos
+              
+  					  var firstMatches = matchArray.slice(pos,pos+5);
+  					  
+              var username = currUser.user;
+  					  var groups = currUser.groups;
+              
+              //res.json(firstMatches);
+  					  
+              //Redirect to matches page
+              res.render("matches", {users: firstMatches, username: username, groups: groups});
+            });
        		}
        		else{
        			res.render("signup", {title: "Closer"});
        		}
       	});
-      
       }
-     else {
-      	
+      else {
         res.send("Sorry, that's an incorrect username/password combination!");
-
       }
     
      });
@@ -76,15 +85,21 @@ router.post("/signup", function(req, res, next){
       }
      else if (password == passwordcheck) { 
 
-      	db.users.insert({user: username, password: password, email: email, filledOut:false}, function(err){
-      		
-      		res.render("signup", {title: "Closer"});
+      	//Add to users database
+        db.users.insert({user: username, password: password, email: email, filledOut:false}, function(err){
+          
+          //Pull user from database
+          db.users.find({user:username}).toArray(function(err,peeps){
+            //Set currUser
+            currUser = peeps[0];
+            
+            //Add to matches database
+            db.matches.insert({user: username, yes: [], no: [username], pos: 0}, function(err) {
+              res.render("signup", {title: "Closer"});
+            });
+          });
       	});
-       db.users.find({user:username}).toArray(function(err,peeps){
-
-       		currUser = peeps[0];
-
-      	})
+       
       	  
       }
     
@@ -118,7 +133,7 @@ router.post("/userinfo", function(req,res,next){
         bio:bio,
         filledOut: true,
         groups: [],
-        discoverable: false
+        discoverable: true
 
       }
       
@@ -126,17 +141,9 @@ router.post("/userinfo", function(req,res,next){
 
 	);
 
-	
-  res.render("userpage", {title: "Closer", user: currUser});
+	res.render("userpage", {title: "Closer", user: currUser});
+  
 
-});
-
-//SHORTCUT FOR SIGNUP (TESTING)
-
-router.get('/signup', function(req, res, next) {
-	//search for username entered and set current user to this value
-  res.render('signup', { title: 'Closer' });
-   
 });
 
 //ABOUT PAGE
@@ -160,17 +167,22 @@ router.get("/contact", function(req,res,next){
 
 router.get("/logout", function(req,res,next){
 	console.log("hihi")
+  var username = currUser.user;
+  db.matches.update(
+      {user: username},
+      {$set: {pos: 0}}
 	var currUser = null;
+
 	res.redirect("/");
-	posInMatch = 0;
-	matchArray = [];
+
 	
 });
 
 //UPDATE INFO -- FORM ON USERPAGE
 router.post("/update/:username", function(req, res, next) {
+  var username = req.params.username
   db.users.update(
-    { user: req.params.username },
+    { user: username },
     {
       $set: {
         college: req.body.college,
@@ -185,28 +197,74 @@ router.post("/update/:username", function(req, res, next) {
 
   );
 
-  firstMatches = matchArray.slice(posInMatch,posInMatch+5)
-  var username = currUser.user;
-  res.render("matches", {users: firstMatches, username :username, groups:currUser,groups} );
+  //run ranking algorithm, retrieve matches from db.matches
+  rankingAlgy(username);
+  var matchArray;
+  var firstMatches;
+  var pos;
+  db.matches.find({user: username}).toArray(function(err, data){
+    matchArray = data[0].yes;
+    pos = data[0].pos;
+  
+    firstMatches = matchArray.slice(pos,pos+5);
+    var username = currUser.user;
 
+    //redirect to matches page
+    res.render("matches", {users: firstMatches, username :username, groups: currUser.groups} );
+  });
 });
 
 router.get("/next", function(req,res,next){
+  var username = currUser.user;
 
-	posInMatch +=5;
-	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
-	var username = currUser.user;
-	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
+	var matchArray;
+  var firstMatches;
+  var pos;
+  db.matches.find({user: username}).toArray(function(err, data){
+    matchArray = data[0].yes;
+    pos = data[0].pos;
+  
+  
+    //advance pos 5 spaces
+    pos += 5;
 
+    //update position in database
+    db.matches.update(
+      {user: username},
+      {$set: {pos: pos}}
+    );
+    firstMatches = matchArray.slice(pos,pos+5);
+    
+  	//render matches with updated position
+    res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
+  });
 });
 
 router.get("/previous", function(req,res,next){
 
-	posInMatch -=5;
-	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
 	var username = currUser.user;
-	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
 
+  var matchArray;
+  var firstMatches;
+  var pos;
+  db.matches.find({user: username}).toArray(function(err, data){
+    matchArray = data[0].yes;
+    pos = data[0].pos;
+  
+    //return pos 5 spaces
+    pos -= 5;
+
+    //update position in database
+    db.matches.update(
+      {user: username},
+      {$set: {pos: pos}}
+    );
+    firstMatches = matchArray.slice(pos,pos-5);
+
+    //render matches with updated position
+  	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
+  });
+  
 });
 
 router.get("/search", function(req,res,next){
@@ -221,7 +279,7 @@ router.get("/search", function(req,res,next){
 
 // Send user to userpage when they click to see their profile
 router.get("/userview/:username", function(req, res, next) {
-  var username = currUser.user;
+  var username = req.params.username;
   res.render("userpage", {title: "Closer", user: currUser });
 });
 
@@ -229,11 +287,32 @@ router.get("/userview/:username", function(req, res, next) {
 
 // Send user to matches page when they are on user page and click "Home"
 router.get("/home/:username", function(req, res, next) {
-  var firstMatches = matchArray.slice(posInMatch,5);
-  var username = currUser.user;
+  var username = req.params.username;
+  while(!rankingAlgy(username)) {
+    console.log("computing rank (dank)");
+  }
+  var matchArray;
+  var pos;
+  db.matches.find({user: username}).toArray(function(err, data){
+    matchArray = data[0].yes;
+    pos = data[0].pos
+    
+    var firstMatches = matchArray.slice(pos,pos+5);
+    var groups = currUser.groups;
+    var match_objects = [];
 
-  //Fix matches
-  res.render("matches", { users: firstMatches, username :username });
+    for(var i = 0; i < firstMatches.length; i++) {
+      console.log("match " + firstMatches[i]);
+      db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+        match_objects.push(data[0]);
+        if( match_objects.length === firstMatches.length ) {
+          res.render("matches", {users: firstMatches, username: username, groups: groups});
+          //res.json(match_objects);
+        };
+      });
+    };
+    
+  });  
 });
 
 module.exports = router;
