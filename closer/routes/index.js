@@ -117,22 +117,28 @@ router.post("/userinfo", function(req,res,next){
         bio:bio,
         filledOut: true,
         groups: []
+        discoverable: false,
+
       }
       
     }
-	)	
+
+	);	
 	db.users.find().toArray(function(err, peeps){
+
 		
 		
 		var firstMatches = peeps.slice(posInMatch,5);
 		var username = currUser.user
 		res.render("matches", {users: firstMatches, username :username, groups: currUser.groups});
 
+
 		
 	})
 	
+  res.render("userpage", {title: "Closer", user: currUser})
 
-})
+});
 
 //SHORTCUT FOR SIGNUP (TESTING)
 
@@ -154,7 +160,7 @@ router.get("/about", function(req,res,next){
 
 router.get("/contact", function(req,res,next){
 
-	res.render("contact", {title: "Closer"});
+	res.render("contact", {title: "Closer"}); 
 
 });
 
@@ -169,6 +175,8 @@ router.get("/logout", function(req,res,next){
 	matchArray = [];
 	
 });
+
+//UPDATE INFO -- FORM ON USERPAGE
 
 
 router.get("/next", function(req,res,next){
@@ -196,7 +204,24 @@ router.get("/search", function(req,res,next){
 
 		});
 
+		
+});
 
-})
+// Send user to userpage when they click to see their profile
+router.get("/userview/:username", function(req, res, next) {
+  var username = currUser.user;
+  res.render("userpage", {title: "Closer", user: currUser });
+});
+
+
+
+// Send user to matches page when they are on user page and click "Home"
+router.get("/home/:username", function(req, res, next) {
+  var firstMatches = matchArray.slice(posInMatch,5);
+  var username = currUser.user;
+
+  //Fix matches
+  res.render("matches", { users: firstMatches, username :username });
+});
 
 module.exports = router;

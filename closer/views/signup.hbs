@@ -6,10 +6,10 @@
     <title>{{title}}</title>
 
     <link rel='stylesheet' href='/stylesheets/signup.css' />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato" />
 <<<<<<< HEAD
     <script src = "/javascripts/signup.js"></script>
 </head>
@@ -17,8 +17,7 @@
     
 
   <body class = 'closer'>
-    
-  
+    <!-- Navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -43,7 +42,7 @@
 
    
 
-      
+   <!-- Form -->   
    <div class="container">
     <div class="row">
         <div class = "col-md-3"></div>
@@ -52,13 +51,13 @@
                 <form action="/userinfo" method = "post">
                     <legend class = "login-title">Thanks for joining Closer! We just need a little more info!<br /></legend>
 
-
+                    <!-- First Name -->
                     <div class="form-group">
                         <label for="firstname">First Name</label>
                         <input value='' name = "firstname" id="user-first" placeholder="First Name" type="text" class="form-control" required />
 
                     </div>
-
+                    <!-- Last Name -->
                     <div class="form-group">
 
                         <label for="lastname">Last Name</label>
@@ -66,13 +65,14 @@
 
 
                     </div>
-
+                    <!-- College -->
                     <div class="form-group">
                         <label for="college">College</label>
                         <input value='' name = "college" id="user-college" placeholder="University Name" type="text" class="form-control" required />
 
                     </div>
 
+                    <!-- Class year -->
                     <div class="form-group ">
                       <label for="year">Year:</label>
                       <select class="form-control" id="sel1" name = "year" >
@@ -84,9 +84,9 @@
                       </select>
                     </div>
 
-
+                    <!-- Class input -->
                     <div class="form-group form-group-options col-md-6">
-                            <label for="classes">Current Courses</label>
+                            <label for="classes">Current Courses (Course numbers please)</label>
                                 <div class="input-group input-group-option col-xs-12">
                                     <input type="text" name="option" class="form-control" placeholder="Enter Class Name" required>
                                     <span class="input-group-addon input-group-addon-remove">
@@ -97,7 +97,7 @@
 
 
                     
-
+                     <!-- Gender -->
                     <div class="form-group col-md-6">
                       <label for="gender">Gender:</label>
                       <select class="form-control" id="sel1" name = "gender" >
@@ -116,10 +116,11 @@
                       </div>
                     </div>
 
+                    <!-- Submit Button -->
                     <div class="form-group text-center">
                         
                         <button class = "btn btn-default btn-cancel-action col-md-6" onclick="window.location.href='/logout'">Cancel</button>
-                        <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Confirm" /> 
+                        <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Continue" /> 
                          
                     </div>
                     <div class = "row"></div>
