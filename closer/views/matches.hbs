@@ -37,10 +37,9 @@
           <ul class="nav navbar-nav navbar-right">
             
             <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a><li>
-            <li><a href="/search">Search</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/logout/{{username}}">Logout</a></li>
 
           </ul>
         </div><!--/.nav-collapse -->
@@ -178,8 +177,8 @@
 
     <div class = "col-md-3"></div>
     <!--allows for showing next 5 or previous 5 matches -->
-    <button class = "prev col-md-3" onclick = "window.location.href='/previous'"> Previous </button>
-    <button class = "next col-md-3" onclick = "window.location.href='/next'"> Next </button>
+    <button class = "prev col-md-3" onclick = "window.location.href='/previous/{{ username }}'"> Previous </button>
+    <button class = "next col-md-3" onclick = "window.location.href='/next/{{ username }}'"> Next </button>
 
      <div class = "col-md-3"></div>
     

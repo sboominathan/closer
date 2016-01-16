@@ -1,7 +1,7 @@
 var db = require("./db-setup");
 var finished = false;
 //algorithm takes username, updates db.matches, in a somewhat ranked way.
-var rankingAlgy = function (username) {
+var rankingAlgy = function (username, callback) {
 	var user_Ob;
 	db.users.find({user: username}).toArray(function(err, data) {
 		user_Ob = data[0];
@@ -27,45 +27,48 @@ var rankingAlgy = function (username) {
 				var main_classes = user_Ob.courses;
 				for(var i = 0; i < users.length; i ++) {
 
-					//Checks if college is the same == Main Filter
-					//!!!!Add && not in rejects pile
-					if( (users[i].college == user_Ob.college) && !(users[i].user in user_rejects) ) {
-						var common_classes = 0;
-						var us_classes = users[i].courses;
-						for(var match_class in main_classes) {
-							for(var user_class in main_classes) {
-								//Checks if two classes are the same
-								if(user_class == match_class) {
-									//increment common classes
-									common_classes ++;
+					//Checks if user is discoverable
+					if(users[i].discoverable) {
+						//Checks if college is the same == Main Filter
+						//!!!!Add && not in rejects pile
+						if( (users[i].college == user_Ob.college) && !(users[i].user in user_rejects) ) {
+							var common_classes = 0;
+							var us_classes = users[i].courses;
+							for(var match_class in main_classes) {
+								for(var user_class in main_classes) {
+									//Checks if two classes are the same
+									if(user_class == match_class) {
+										//increment common classes
+										common_classes ++;
+									}
 								}
 							}
-						}
-						console.log("Reached Filter Part of Algorithm");
-						//Filters users into bins by # of common classes
-						//>4
-						if(common_classes > 4) {
-							bin_gfour.push(users[i].user);
-						}
-						
-						//Everything less or equal to 4
-						switch(common_classes) {
-							case 4:
-								bin_four.push(users[i].user);
+							console.log("Reached Filter Part of Algorithm");
+							//Filters users into bins by # of common classes
+							//>4
+							if(common_classes > 4) {
+								bin_gfour.push(users[i].user);
+							}
+							
+							//Everything less or equal to 4
+							switch(common_classes) {
+								case 4:
+									bin_four.push(users[i].user);
 
-								break;
-							case 3:
-								bin_three.push(users[i].user);
-								break;
-							case 2:
-								bin_two.push(users[i].user);
-								break;
-							case 1:
-								bin_one.push(users[i].user);
-								break;
-							default:
-								break;
-						};
+									break;
+								case 3:
+									bin_three.push(users[i].user);
+									break;
+								case 2:
+									bin_two.push(users[i].user);
+									break;
+								case 1:
+									bin_one.push(users[i].user);
+									break;
+								default:
+									break;
+							};
+						}
 					}
 				};
 				//Link the bins up back to back
@@ -78,11 +81,12 @@ var rankingAlgy = function (username) {
 				db.matches.update(
 					{user: username},
 					{$set: {yes: overall}}
-				);
+				, function () {
+					callback();
+				});
 			});
 		});
 	});
-	return true
 };
 
 module.exports = rankingAlgy;
