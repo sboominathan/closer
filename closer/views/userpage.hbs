@@ -8,6 +8,8 @@
 		<!-- Scripts -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src = "/javascripts/userpage.js"></script>
+
 	</head>
 
 	<body class = 'closer'>
@@ -25,42 +27,22 @@
         		</div>
         		<div id="navbar" class="collapse navbar-collapse">
           			<ul class="nav navbar-nav navbar-right">
-                  <li><a href="/home/{{ user.user }}">Home</li>
+
+                  
             			<li><a href="/about">About</a></li>
-            			<li><a href="#contact">Contact</a></li>
-            			<li><a href="/logout">Logout</a></li>
+                  <li><a href="/notifications/{{user.user}}">Notifications ({{user.notifications.length}})</a></li>
+                  <li><a href="/home/{{user.user}}">Home</a></li>
+            			<li><a href="/contact">Contact</a></li>
+            			<li><a href="/logout/{{user.user}}">Logout</a></li>
+                  
+
           			</ul>
         		</div><!--/.nav-collapse -->
       		</div>
     	</nav>
 		
-
-		<!-- Current Profile Display -->
-		<div>
-			<div>
-				<!--Image-->
-				<div>
-				</div>
-			</div>
-
-			<div>
-				<!-- Text -->
-				
-				<!-- Name -->
-				<h3>{{ user.first }} {{ user.last }}</h3>
-
-				<!-- School, year -->
-				<h5>{{ user.college }}, {{ user.year }}</h5>
-				
-				<!-- Classes -->
-				<ul>
-					{{ user.courses }}
-				</ul>
-				
-				<!-- Bio -->
-				<p>{{ user.bio }}</p>
-			</div>
-		</div>
+    
+	
 
 		<!-- Update information -->
 		<!-- Form -->   
@@ -75,13 +57,13 @@
                     		<!-- College -->
                     		<div class="form-group">
                         		<label for="college">College</label>
-                        		<input name = "college" id="user-college" placeholder="University Name" type="text" class="form-control" required />
+                        		<input name = "college" id="user-college" placeholder="University Name" type="text" class="form-control" value = {{user.college}} required />
                         	</div>
 
                     		<!-- Class year -->
                     		<div class="form-group ">
                       			<label for="year">Year:</label>
-                      			<select class="form-control" id="sel1" name = "year">
+                      			<select class="form-control" id="sel1" name = "year" value = {{user.year}}>
                         			<option>Freshman</option>
                         			<option>Sophomore</option>
                         			<option>Junior</option>
@@ -91,22 +73,29 @@
                     		</div>
 
                     		<!-- Class input -->
-                    		<div class="form-group form-group-options col-md-6">
-                            	<label for="classes">Current Courses (Course numbers please)</label>
+                      <div class="form-group form-group-options col-md-6">
+                              <label for="classes">Current Courses (Course numbers please)</label>
+
+                      {{#each courses}}
+                    		
                                 <div class="input-group input-group-option col-xs-12">
-                                    <input type="text" name="option" class="form-control" placeholder="Enter Class Name" required>
+                                    <input type="text" value = {{this}} name="option" class="form-control" placeholder="Enter Class Name" required>
                                     <span class="input-group-addon input-group-addon-remove">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </span>
                             	</div>
-                    		 </div>
 
+                    		 
+                         {{/each}}
+                         </div>
+                        
+                        <div class = "row"></div>
                     		<!-- Bio -->
                        	<div class="form-group">
                           	<label for="bio"></label>
                         		<div>
                          			<p> Short Bio</p>
-                          			<textarea class="form-control" rows="5" id="bio" name = "bio"></textarea>
+                          			<textarea class="form-control" rows="5" id="bio" name = "bio" value = >{{user.bio}}</textarea>
                       			</div>
                     		</div>
 

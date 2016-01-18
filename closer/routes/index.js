@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../db-setup.js");
-var currUser = null;
-var matchArray = [];
-var posInMatch = 0
+var rankingAlgy = require("../matches_handler");
+//var matchArray = [];
+//var currUser = null;
+//var posInMatch = 0;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,7 +18,7 @@ router.post('/login', function(req, res, next) {
   
   var username = req.body.username;
   var password = req.body.password;
-  posInMatch = 0;
+  //posInMatch = 0;
   
   db.users.find({user: username, password: password}).toArray(function (err, peeps) {
     if (peeps.length > 0) {
@@ -27,27 +28,53 @@ router.post('/login', function(req, res, next) {
 
       db.users.find({user:username}).toArray(function(err,peeps){
 
-       		currUser = peeps[0];
+       		var currUser = peeps[0];
+       		console.log(currUser.user);
        		if (currUser.filledOut){
-       			db.users.find().toArray(function(err, data){
-       				matchArray = data;
-					var firstMatches = data.slice(posInMatch,5);
-					var username = currUser.user
-					var groups = currUser.groups
+            
+            //run ranking algorithm, retrieve matches from db.matches
+            rankingAlgy(username, function() {
 
-					res.render("matches", {users: firstMatches, username: username, groups: groups});
-				})
+              	var matchArray;
+              	var pos;
+         	 	db.matches.find({user: username}).toArray(function(err, data){
+         		matchArray = data[0].yes;
+                pos = data[0].pos
+                
+    			var firstMatches = matchArray.slice(pos,pos+5);
+    					  
+                var username = currUser.user;
+    			var groups = currUser.groups;
+                
+                //retrieve match objects given array of match names
+                var match_objects = [];
+                if (firstMatches.length==0){
+                res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+            	}
+                for(var i = 0; i < firstMatches.length; i++) {
+                  console.log("match " + firstMatches[i]);
+                  db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+                    match_objects.push(data[0]);
+                    
+                    //Check if match_objects contains all user objects referred to in first matches.
+                    if( match_objects.length === firstMatches.length ) {
+                      //Redirect to matches page
+                      res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+                    };
+                  });
+
+                };
+
+              });
+            });
        		}
        		else{
        			res.render("signup", {title: "Closer"});
        		}
       	});
-      
       }
-     else {
-      	
+      else {
         res.send("Sorry, that's an incorrect username/password combination!");
-
       }
     
      });
@@ -75,15 +102,21 @@ router.post("/signup", function(req, res, next){
       }
      else if (password == passwordcheck) { 
 
-      	db.users.insert({user: username, password: password, email: email, filledOut:false}, function(err){
-      		
-      		res.render("signup", {title: "Closer"});
+      	//Add to users database
+        db.users.insert({user: username, password: password, email: email, filledOut:false}, function(err){
+          
+          //Pull user from database
+          db.users.find({user:username}).toArray(function(err,peeps){
+            //Set currUser
+            var currUser = peeps[0];
+            
+            //Add to matches database
+            db.matches.insert({user: username, yes: [], no: [username], pos: 0}, function(err) {
+              res.render("signup", {title: "Closer", username: username});
+            });
+          });
       	});
-       db.users.find({user:username}).toArray(function(err,peeps){
-
-       		currUser = peeps[0];
-
-      	})
+       
       	  
       }
     
@@ -93,60 +126,49 @@ router.post("/signup", function(req, res, next){
 
 ////////////////////////////////
 
-router.post("/userinfo", function(req,res,next){
 
-	var first = req.body.firstname;
-	var last = req.body.lastname;
-	var college = req.body.college;
-	var year = req.body.year;
-	var gender = req.body.gender;
-	var courses = req.body.option;
-	var bio = req.body.bio;
-	
+router.post("/userinfo/:username", function(req,res,next){
+  //retrieve user object
+  var username = req.params.username;
+  db.users.find({user:username}).toArray(function(err, data) {
+    var currUser = data[0];
+    
+    //retrieve request Info.
+  	var first = req.body.firstname;
+  	var last = req.body.lastname;
+  	var college = req.body.college;
+  	var year = req.body.year;
+  	var gender = req.body.gender;
+  	var courses = req.body.option;
+  	var bio = req.body.bio;
+  	
+    //Update user object with new info.
+  	db.users.update(
+      { user: currUser.user },
+      {
+        $set: {
+          first: first,
+          last: last,
+          college: college,
+          year: year,
+          gender: gender,
+          courses: courses,
+          bio:bio,
+          filledOut: true,
+          groups: [],
+          discoverable: true,
+          notifications: []
 
-	db.users.update(
-    { user: currUser.user },
-    {
-      $set: {
-        first: first,
-        last: last,
-        college: college,
-        year: year,
-        gender: gender,
-        courses: courses,
-        bio:bio,
-        filledOut: true,
-        groups: []
-        discoverable: false,
-
+        }
       }
-      
-    }
-
-	);	
-	db.users.find().toArray(function(err, peeps){
-
-		
-		
-		var firstMatches = peeps.slice(posInMatch,5);
-		var username = currUser.user
-		res.render("matches", {users: firstMatches, username :username, groups: currUser.groups});
-
-
-		
-	})
-	
-  res.render("userpage", {title: "Closer", user: currUser})
-
+  	);
+  	//Render Userpage
+    res.render("userpage", {title: "Closer", user: currUser});
+  });
 });
 
-//SHORTCUT FOR SIGNUP (TESTING)
 
-router.get('/signup', function(req, res, next) {
-	//search for username entered and set current user to this value
-  res.render('signup', { title: 'Closer' });
-   
-});
+
 
 //ABOUT PAGE
 router.get("/about", function(req,res,next){
@@ -167,61 +189,417 @@ router.get("/contact", function(req,res,next){
 //REROUTES TO FRONT PAGE, RESETS CURRENT USER TO NULL
 //ACCESSED BY LOGOUT BUTTON ON NAVBAR ON EVERY PAGE
 
-router.get("/logout", function(req,res,next){
-	console.log("hihi")
-	var currUser = null;
-	res.redirect("/");
-	posInMatch = 0;
-	matchArray = [];
-	
+
+router.get("/logout/:username", function(req,res,next){
+	//Retrieve Username from url request
+  var username = req.params.username;
+  console.log("Logging " + username + " out");
+  db.users.find({user: username}).toArray( function(err, data) {
+    //Reset Matches
+    db.matches.update(
+      {user: username},
+      {$set: {pos: 0}}
+    );
+    res.redirect("/");
+  });
 });
+
 
 //UPDATE INFO -- FORM ON USERPAGE
 
+router.post("/update/:username", function(req, res, next) {
+  var username = req.params.username;
+  var disc = (req.body.discoverable === "Yes");
 
-router.get("/next", function(req,res,next){
+  db.users.update(
+    { user: username },
+    {
+      $set: {
+        college: req.body.college,
+        year: req.body.year,
+        courses: req.body.courses,
+        bio:req.body.bio,
+        discoverable: disc
+      }
+      
+    }
 
-	posInMatch +=5;
-	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
-	var username = currUser.user;
-	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
+  );
 
+  //run ranking algorithm, retrieve matches from db.matches
+  rankingAlgy(username, function() {
+
+    var matchArray;
+    var firstMatches;
+    var pos;
+    db.users.find({user: username}).toArray( function(err, data) {
+      var currUser = data[0];
+
+      db.matches.find({user: username}).toArray(function(err, data){
+        matchArray = data[0].yes;
+        pos = data[0].pos;
+      
+        firstMatches = matchArray.slice(pos,pos+5);
+
+        //retrieve match objects given array of match names
+        var match_objects = [];
+        for(var i = 0; i < firstMatches.length; i++) {
+          console.log("match " + firstMatches[i]);
+          db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+            match_objects.push(data[0]);
+            
+            //Check if match_objects contains all user objects referred to in first matches.
+            if( match_objects.length === firstMatches.length ) {
+              //Redirect to matches page
+              res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+            };
+          });
+        };
+      });
+    });
+  });
 });
 
-router.get("/previous", function(req,res,next){
 
-	posInMatch -=5;
-	firstMatches = matchArray.slice(posInMatch,posInMatch+5)
-	var username = currUser.user;
-	res.render("matches",{users: firstMatches, username :username, groups: currUser.groups} );
 
+
+router.get("/next/:username", function(req,res,next){
+  //Retrieve Username from req.
+  var username = req.params.username;
+
+  //Find user Object in DB
+  db.users.find({user: username}).toArray( function(err, data) {
+    var currUser = data[0];
+
+  	var matchArray;
+    var firstMatches;
+    var pos;
+    db.matches.find({user: username}).toArray(function(err, data){
+      matchArray = data[0].yes;
+      pos = data[0].pos;
+    
+    
+      //advance pos 5 spaces
+      pos += 5;
+
+      //update position in database
+      db.matches.update(
+        {user: username},
+        {$set: {pos: pos}}
+      );
+      firstMatches = matchArray.slice(pos,pos+5);
+      
+      //retrieve match objects given array of match names
+      var match_objects = [];
+      for(var i = 0; i < firstMatches.length; i++) {
+        console.log("match " + firstMatches[i]);
+        db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+          match_objects.push(data[0]);
+          
+          //Check if match_objects contains all user objects referred to in first matches.
+          if( match_objects.length === firstMatches.length ) {
+            //Render matches page
+            res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+          };
+        });
+      };
+    });
+  });
 });
 
-router.get("/search", function(req,res,next){
+router.get("/previous/:username", function(req,res,next){
+  //retrieve Username from req.
+	var username = req.params.username;
 
-	var username = currUser.user;
-	res.render("search", {title: "Closer", username: username,
+  //Find user Object in database
+  db.users.find({user: username}).toArray(function(err, data) {
+    var currUser = data[0];
 
-		});
+    //Find Matches
+    var matchArray;
+    var firstMatches;
+    var pos;
+    db.matches.find({user: username}).toArray(function(err, data){
+      matchArray = data[0].yes;
+      pos = data[0].pos;
 
-		
+      //Return User 5 spaces
+      pos -= 5;
+
+      //update position in database
+      db.matches.update(
+        {user: username},
+        {$set: {pos: pos}}
+      );
+      firstMatches = matchArray.slice(pos,pos-5);
+
+      //retrieve match objects given array of match names
+      var match_objects = [];
+      for(var i = 0; i < firstMatches.length; i++) {
+        console.log("match " + firstMatches[i]);
+        db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+          match_objects.push(data[0]);
+          
+          //Check if match_objects contains all user objects referred to in first matches.
+          if( match_objects.length === firstMatches.length ) {
+            //Render matches
+            res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+          };
+        });
+      };
+    });
+  });
 });
 
-// Send user to userpage when they click to see their profile
+
+// Send user to userpage when they click to see their profile - FIXED CURRUSER PROBLEM
 router.get("/userview/:username", function(req, res, next) {
-  var username = currUser.user;
-  res.render("userpage", {title: "Closer", user: currUser });
+
+	
+	var username = req.params.username;
+	db.users.find({user:username}).toArray(function(err, data){
+		var user = data[0];
+		var courses = user.courses;
+		if (typeof courses == "string"){
+			courses = [courses];
+		}
+		res.render("userpage", {title: "Closer", user: user, courses: courses});
+	});
+	
+  //var username = currUser.user;
+  
 });
 
 
 
 // Send user to matches page when they are on user page and click "Home"
 router.get("/home/:username", function(req, res, next) {
-  var firstMatches = matchArray.slice(posInMatch,5);
-  var username = currUser.user;
+  var username = req.params.username;
+  db.users.find({user: username}).toArray(function(err, data) {
+    var currUser = data[0];
 
-  //Fix matches
-  res.render("matches", { users: firstMatches, username :username });
+    rankingAlgy(username, function () {
+
+      var matchArray;
+      var pos;
+      db.matches.find({user: username}).toArray(function(err, data){
+        matchArray = data[0].yes;
+        pos = data[0].pos
+        
+        var firstMatches = matchArray.slice(pos,pos+5);
+        var groups = currUser.groups;
+        var match_objects = [];
+
+        //retrieve match objects given array of match names
+        for(var i = 0; i < firstMatches.length; i++) {
+          console.log("match " + firstMatches[i]);
+          db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+            match_objects.push(data[0]);
+            
+            //Check if match_objects contains all user objects referred to in first matches.
+            if( match_objects.length === firstMatches.length ) {
+              res.render("matches", {users: match_objects, username: username, groups: groups, user: currUser});
+            };
+          });
+        };
+      });   
+    });
+    
+  });
 });
+///////////////////////////////////////////////////////////
+
+//SENDS INVITE TO USER TO JOIN NEW GROUP
+
+router.post("/create/:username", function(req,res,next){
+
+	var invitedUser = req.params.username;
+	var invitingUser=  req.body.invitername;
+	var groupName = req.body.groupname;
+	var subject = req.body.subject;
+	db.users.find({user:invitedUser}).toArray(function(err, data){
+		var currNotifs = data[0].notifications
+		currNotifs.push({"user": invitingUser, "groupName": groupName, "subject": subject });
+		db.users.update({user:invitedUser},{$set:{notifications: currNotifs}});
+		res.redirect("/home/"+invitingUser);
+		
+
+	})
+
+
+});
+
+/////////////////////////////////////////////
+
+//SENDS INVITE TO USER TO JOIN EXISTING GROUP
+router.post("/createold/:username", function(req,res,next){
+
+
+	var invitedUser = req.params.username;
+	var invitingUser=  req.body.invitername;
+	var groupName = req.body.groupname;
+	var subject = req.body.subject;
+
+});
+
+
+//LISTS NOTIFICATIONS FOR A GIVEN USER
+
+
+router.get("/notifications/:username", function(req,res,next){
+
+	var username = req.params.username;
+	db.users.find({user: username}).toArray(function(err,data){
+
+		var notifs = data[0].notifications;
+		var user = data[0]
+		res.render("notifications", {username: username, notifs: notifs, user: user})
+
+	})
+
+})
+
+//////////////////////////////////////////
+
+
+
+//INVITED USER ACCEPTS REQUEST TO JOIN NEW OR OLD GROUP
+
+router.post("/newgroup/:username", function(req,res,next){
+
+	var username = req.params.username; //user responding to notification
+	var  invitingUser=  req.body.invitername; //user who sent the invite
+	var groupName = req.body.groupname; //name of group being created
+	var subject = req.body.subject
+	db.users.find({user: username}).toArray(function(err,data){
+
+		var groups = data[0].groups; //updating groups field of user responding after acceptance
+		groups.push({"groupName": groupName, "subject": subject});
+		db.users.update({user: username}, {$set:{groups: groups}});
+
+		db.groups.find({"groupName": groupName}).toArray(function(err,data){
+
+			if (data.length==0){
+
+				db.groups.insert({"groupName": groupName, "userList": [invitingUser, username], "chat": []});
+			}
+
+			else{
+
+				userlist = data[0].userList;
+				userlist.push(username);
+				db.groups.update({"groupName": groupName}, {$set :{"userList": userlist }});
+
+			}
+			
+		})
+		
+
+		db.users.find({user: invitingUser}).toArray(function(err,peeps){
+
+			var inviteGroups = peeps[0].groups;
+			inviteGroups.push({"groupName": groupName, "subject": subject});
+			db.users.update({user: invitingUser}, {$set:{groups: inviteGroups}});
+
+		})
+
+
+		var notifs = data[0].notifications;
+		for (var i = 0; i< notifs.length;i++){
+			if (notifs[i].user === invitingUser){
+
+				notifs.splice(i,1);
+			}
+
+		}
+
+		if (notifs == null){notifs = []};
+		db.users.update({user:username},{$set:{notifications: notifs}});
+		var notifs = data[0].notifications;
+
+		res.render("notifications", {username: username, notifs: notifs, user: data[0] })
+
+	})
+
+});
+
+//////////////////////////////////////////////////////
+
+//INVITED USER DECLINES REQUEST TO JOIN NEW OR OLD GROUP
+
+router.post("/removegroup/:username", function(req,res,next){
+
+	var username = req.params.username;
+	var invitingUser=  req.body.invitername; 
+
+	db.users.find({user: username}).toArray(function(err, data){
+
+		var notifs = data[0].notifications;
+		if (notifs == null){notifs = [];}
+		for (var i = 0; i< notifs.length;i++){
+			if (notifs[i].user === invitingUser){
+
+				notifs.splice(i,1);
+			}
+
+		}
+
+		if (notifs == null){notifs = []};
+		db.users.update({user:username},{$set:{notifications: notifs}});
+		var notifs = data[0].notifications;
+
+		res.render("notifications", {username: username, notifs: notifs, user: data[0] })
+
+	})
+
+	
+
+});
+
+////////////////////
+
+// LIST OF ALL GROUPS FOR USER CURRENTLY LOGGED IN
+
+router.get("/groupList/:username", function(req,res,next){
+
+	var username = req.params.username
+
+	db.users.find({user: username}).toArray(function(err, data){
+
+		var userGroups = data[0].groups;
+		console.log(userGroups);
+	
+		
+
+		res.render("groupList", {username: username, groupList: userGroups, user: data[0]})
+
+	})
+
+})
+
+////////////////////
+
+
+router.get("/groups/:username/:groupName", function(req,res,next){
+
+	var username = req.params.username;
+	var groupName = req.params.groupName;
+
+	db.users.find({user: username}).toArray(function(err, data){
+
+		var user = data[0];
+		db.groups.find({groupName: groupName}).toArray(function(err, peeps){
+
+			var chatHistory = peeps[0].chat;
+			res.render("groups", {groupName: groupName, username: username, user: data[0], chatHistory: chatHistory});
+
+		})
+		
+	})
+	
+
+});
+
+
 
 module.exports = router;

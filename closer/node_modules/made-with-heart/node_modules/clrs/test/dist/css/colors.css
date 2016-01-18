@@ -1,0 +1,52 @@
+.navy li:last-child {
+  background-color: #222245;
+}
+.blue li:last-child {
+  background-color: #1da1cd;
+}
+.aqua li:last-child {
+  background-color: #53ecec;
+}
+.teal li:last-child {
+  background-color: #399;
+}
+.olive li:last-child {
+  background-color: #77a277;
+}
+.green li:last-child {
+  background-color: #68d286;
+}
+.lime li:last-child {
+  background-color: #6c6;
+}
+.yellow li:last-child {
+  background-color: #fcd174;
+}
+.orange li:last-child {
+  background-color: #fbad2f;
+}
+.red li:last-child {
+  background-color: #eb585c;
+}
+.maroon li:last-child {
+  background-color: #854848;
+}
+.fuchsia li:last-child {
+  background-color: #d270d2;
+}
+.purple li:last-child {
+  background-color: #a085c6;
+}
+.silver li:last-child {
+  background-color: #d3d3d3;
+}
+.gray li:last-child {
+  background-color: #353d44;
+}
+.black li:last-child {
+  background-color: #111;
+}
+.white li:last-child {
+  background-color: #fff;
+}
+

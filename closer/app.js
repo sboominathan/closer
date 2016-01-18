@@ -4,6 +4,63 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var io = require("socket.io").listen("4000");
+var db = require("./db-setup.js");
+
+/*var nsp = io.of("/mynamespace");
+
+nsp.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    nsp.emit("chat message", msg);
+  });
+});*/
+
+
+var url = require('url');
+
+/*var rooms = {}
+
+function createChannel(name) {
+  rooms[name] = io.of(name);
+}*/
+
+
+// global entry point for new connections
+io.on('connection', function (socket) {
+  // extract namespace from connected url query param 'ns'
+  var ns = url.parse(socket.handshake.url, true).query.ns;
+  console.log('connected ns: '+ns)
+
+      var index = ns.indexOf("4000");
+      var namespace = ns.substring(index+4,ns.length);
+      console.log(namespace);
+      var groupname = namespace.substring(1,namespace.length);
+      console.log(groupname);
+
+      var nsp = io.of(namespace);
+
+      nsp.once('connection', function(socket){
+        console.log("hello");
+        socket.on('chat message', function(msg){
+
+          db.groups.find({groupName: groupname}).toArray(function(err, data){
+
+            var group = data[0];
+            console.log(data[0]);
+            var chatHistory = group.chat;
+            console.log(chatHistory);
+            chatHistory.push(msg);
+            console.log(chatHistory);
+            db.groups.update({groupName: groupname}, {$set:{chat: chatHistory}});
+
+          })
+          nsp.emit("chat message", msg);
+        });
+      });
+    
+  
+});
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

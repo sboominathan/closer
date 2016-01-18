@@ -10,7 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato" />
-<<<<<<< HEAD
     <script src = "/javascripts/signup.js"></script>
 </head>
 
@@ -33,8 +32,8 @@
           <ul class="nav navbar-nav navbar-right">
             
             <li><a href="/about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/logout/{{username}}">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -48,7 +47,7 @@
         <div class = "col-md-3"></div>
         <div class="col-md-6">
             <div class="well signup-box signup-form">
-                <form action="/userinfo" method = "post">
+                <form action="/userinfo/{{username}}" method = "post">
                     <legend class = "login-title">Thanks for joining Closer! We just need a little more info!<br /></legend>
 
                     <!-- First Name -->
