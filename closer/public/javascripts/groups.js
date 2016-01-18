@@ -13,7 +13,7 @@ $(document).ready(function(){
 	}
 
 	var groupName = $("#groupName").text()
-	var socket = connect('http://localhost:4000/' + groupName);
+	var socket = connect('http://localhost:1337/' + groupName);
 	
 
 	$('form').submit(function(){

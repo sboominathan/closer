@@ -4,7 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var io = require("socket.io").listen("4000");
+var port = process.env.PORT || 1337;
+console.log(port);
+//var io = require("socket.io").listen( port);
 var db = require("./db-setup.js");
 
 /*var nsp = io.of("/mynamespace");
@@ -24,6 +26,15 @@ function createChannel(name) {
   rooms[name] = io.of(name);
 }*/
 
+var routes = require('./routes/index');
+var users = require('./routes/users');
+
+var app = express();
+app.set('port', process.env.PORT || 1337);
+server = require('http').createServer(app)
+io = require('socket.io').listen(server, { log: false });
+server.listen(app.get("port"));
+//console.log(port);
 
 // global entry point for new connections
 io.on('connection', function (socket) {
@@ -31,7 +42,8 @@ io.on('connection', function (socket) {
   var ns = url.parse(socket.handshake.url, true).query.ns;
   console.log('connected ns: '+ns)
 
-      var index = ns.indexOf("4000");
+      var index = ns.indexOf(port);
+      console.log(port);
       var namespace = ns.substring(index+4,ns.length);
       console.log(namespace);
       var groupname = namespace.substring(1,namespace.length);
@@ -62,10 +74,7 @@ io.on('connection', function (socket) {
 });
 
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
