@@ -1,6 +1,8 @@
+body{
+	background-color: grey;
+}
 .navbar-brand{
-	font-family: Lato;
-	
+	font-family: Lato;	
 }
 
 .navbar-header{
@@ -12,12 +14,13 @@
 }
 
 .title{
-  padding: 125px 15px 0px 15px;
+  padding: 0px 15px 0px 15px;
   text-align: center;
   font-family: Lato;
   font-size: 75px;
   color: white;
   font-weight: 50%;
+  opacity: 0;
 }
 
 .subtitle{
@@ -26,21 +29,85 @@
 	font-family: Lato;
 	padding-bottom: 75px;
 	color: white;
+	opacity: 0;
 }
 
 .head{
-
 	width:200px;
 }
 
-
-
-.closer{
-
-	background: url("/images/home.jpg") fixed no-repeat;
-	background-size: cover;
-
+.start{
+	text-align: center;
+	padding-top: 100px;
 }
+
+/*Closer Logo styling*/
+
+.title-logo{
+	/*data-stellar-background-ratio="0.5";*/
+	background: url("/images/home.jpg") no-repeat;
+	/*width: 100%;*/
+	/*background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1)), url("/images/home.jpg");*/
+	background-size: 100%;
+	/*height: 100%;*/
+	background-attachment: fixed;
+}
+
+.closer-logo{
+	width: 120px;
+	padding: 125px 0px 0px 0px;
+	margin: 20px auto 10px auto;
+	position: relative;
+}
+
+.logo-list-container{
+	padding: 0;
+}
+
+.logo-list-container li{
+	display: inline-block;
+}
+
+.letter-C{
+	z-index: 3;
+}
+
+.letter-E{
+	z-index: 1;
+}
+
+#t-l-spacer{
+	padding-bottom: 100px;
+}
+
+/*Parallax elements styling*/
+
+.home-strip{
+	background-color: white;
+}
+
+.home-strip p{
+	font-size: 20px;
+}
+
+.ele-num-1{
+	/*data-stellar-background-ratio="0.5";*/
+	/*background: url("/images/MIT-Dome.jpg") no-repeat;*/
+	background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,1)), url("/images/MIT-Dome.jpg") no-repeat;
+	background-size: 100%;
+	background-attachment: fixed;
+	/*background-position: relative;*/
+}
+
+.ele-num-2{
+	/*background: url("/images/study-group.jpg") no-repeat;*/
+	data-stellar-background-ratio="0.5";
+	background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0)), url("/images/study-group.jpg") no-repeat;
+	background-size: 100%;
+	background-attachment: fixed;
+}
+
+/*Other styling*/
 
 .btn.log-in-button{
 	border-radius: 0px;
@@ -86,7 +153,6 @@
 }
 
 
-
 .sign-up-form{
 	display: none;
 	margin-top: -30px;
@@ -115,4 +181,3 @@
 .no-account{
 	text-align: center;
 }
-
