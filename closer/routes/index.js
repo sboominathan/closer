@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var db = require("../db-setup.js");
+
+var db = require("../db-setup");
 var rankingAlgy = require("../matches_handler");
-//var matchArray = [];
-//var currUser = null;
-//var posInMatch = 0;
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,8 +18,9 @@ router.post('/login', function(req, res, next) {
   
   var username = req.body.username;
   var password = req.body.password;
-  //posInMatch = 0;
+
   
+  //attempt to pull user from database
   db.users.find({user: username, password: password}).toArray(function (err, peeps) {
     if (peeps.length > 0) {
       
@@ -29,11 +30,15 @@ router.post('/login', function(req, res, next) {
       db.users.find({user:username}).toArray(function(err,peeps){
 
        		var currUser = peeps[0];
-       		console.log(currUser.user);
-       		if (currUser.filledOut){
+
+          console.log(currUser.user);
+       		//check if filled out
+          if (currUser.filledOut){
+
             
             //run ranking algorithm, retrieve matches from db.matches
             rankingAlgy(username, function() {
+
 
               	var matchArray;
               	var pos;
@@ -51,6 +56,7 @@ router.post('/login', function(req, res, next) {
                 if (firstMatches.length==0){
                 res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
             	}
+
                 for(var i = 0; i < firstMatches.length; i++) {
                   console.log("match " + firstMatches[i]);
                   db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
@@ -59,12 +65,12 @@ router.post('/login', function(req, res, next) {
                     //Check if match_objects contains all user objects referred to in first matches.
                     if( match_objects.length === firstMatches.length ) {
                       //Redirect to matches page
+
                       res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
                     };
                   });
 
                 };
-
               });
             });
        		}
@@ -168,8 +174,6 @@ router.post("/userinfo/:username", function(req,res,next){
 });
 
 
-
-
 //ABOUT PAGE
 router.get("/about", function(req,res,next){
 
@@ -188,7 +192,6 @@ router.get("/contact", function(req,res,next){
 
 //REROUTES TO FRONT PAGE, RESETS CURRENT USER TO NULL
 //ACCESSED BY LOGOUT BUTTON ON NAVBAR ON EVERY PAGE
-
 
 router.get("/logout/:username", function(req,res,next){
 	//Retrieve Username from url request
@@ -263,6 +266,7 @@ router.post("/update/:username", function(req, res, next) {
 
 
 
+
 router.get("/next/:username", function(req,res,next){
   //Retrieve Username from req.
   var username = req.params.username;
@@ -300,6 +304,7 @@ router.get("/next/:username", function(req,res,next){
           if( match_objects.length === firstMatches.length ) {
             //Render matches page
             res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+
           };
         });
       };
@@ -344,6 +349,7 @@ router.get("/previous/:username", function(req,res,next){
           if( match_objects.length === firstMatches.length ) {
             //Render matches
             res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+
           };
         });
       };
@@ -355,7 +361,6 @@ router.get("/previous/:username", function(req,res,next){
 // Send user to userpage when they click to see their profile - FIXED CURRUSER PROBLEM
 router.get("/userview/:username", function(req, res, next) {
 
-	
 	var username = req.params.username;
 	db.users.find({user:username}).toArray(function(err, data){
 		var user = data[0];
@@ -368,6 +373,7 @@ router.get("/userview/:username", function(req, res, next) {
 	
   //var username = currUser.user;
   
+
 });
 
 
@@ -399,6 +405,7 @@ router.get("/home/:username", function(req, res, next) {
             //Check if match_objects contains all user objects referred to in first matches.
             if( match_objects.length === firstMatches.length ) {
               res.render("matches", {users: match_objects, username: username, groups: groups, user: currUser});
+
             };
           });
         };
@@ -406,6 +413,7 @@ router.get("/home/:username", function(req, res, next) {
     });
     
   });
+
 });
 ///////////////////////////////////////////////////////////
 
@@ -599,6 +607,7 @@ router.get("/groups/:username/:groupName", function(req,res,next){
 	
 
 });
+
 
 
 

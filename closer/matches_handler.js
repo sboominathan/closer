@@ -77,8 +77,6 @@ var rankingAlgy = function (username, callback) {
 				overall = overall.concat(bin_two);
 				overall = overall.concat(bin_one);
 
-				console.log("hi");
-
 				
 				//update db with user = username, yes = overall = array of USERNAMES
 				db.matches.update(
