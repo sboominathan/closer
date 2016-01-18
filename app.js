@@ -77,7 +77,6 @@ io.on('connection', function (socket) {
 
 
 // view engine setup
-console.log(__dirname);
 app.set('views', path.join(__dirname, 'views'));
 var exphbs = require('express-handlebars');
 app.engine('.hbs', exphbs({extname: '.hbs'}));
