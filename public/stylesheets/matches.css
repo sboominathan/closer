@@ -6,21 +6,35 @@ h1{
 	margin-top: 100px;
 }
 
-li{
-	display: inline;
-}
-
 .form-body{
 	display: none;
 }
 
 .user-box{
 	border-radius: 20px;
-	border: 1px solid #fff;
+	border: 2px solid #fff;
 	background-color: #3384ff;
 	border-color: #ffffff;
 	font-family: Lato;
 	opacity: 0.75;
 	font-size: 20px;
 	padding: 4px;
+	color: black;
+	margin-top: 10px;
+}
+
+body{
+	background: url("/images/home.jpg") no-repeat;
+	background-size: 100%;
+}
+
+.btn-default{
+	min-width: 100%;
+	font-size: 18px;
+	margin: 2px;
+}
+
+.p-n-btn{
+	font-size: 28px;
+	margin-top: 10px;
 }
