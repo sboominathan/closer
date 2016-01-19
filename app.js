@@ -35,10 +35,7 @@ server = require('http').createServer(app)
 io = require('socket.io').listen(server, { log: false });
 server.listen(app.get("port"));
 //console.log(port);
-io.configure(function () {  
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
+
 
 
 // global entry point for new connections
