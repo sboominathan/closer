@@ -1,9 +1,8 @@
 .row{
-
 	margin-top: 75 px;
 	padding-top: 75px;
-	
 }
+
 .legend{
 	padding-bottom: 10px;
 }
@@ -14,7 +13,6 @@
 }
 
 .signup-form{
-	
 	font-family: Lato;
 	opacity: 0.85;
 }
@@ -22,17 +20,12 @@
 .btn.btn-cancel-action{
 	border-radius: 0;
 }
+
 .btn.btn-login-submit{
 	border-radius: 0;
 }
 
 .closer{
-
 	background: url("/images/home.jpg") fixed no-repeat;
 	background-size: cover;
-
 }
-
-
-
-
