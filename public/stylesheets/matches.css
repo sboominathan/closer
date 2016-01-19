@@ -13,3 +13,14 @@ li{
 .form-body{
 	display: none;
 }
+
+.user-box{
+	border-radius: 20px;
+	border: 1px solid #fff;
+	background-color: #3384ff;
+	border-color: #ffffff;
+	font-family: Lato;
+	opacity: 0.75;
+	font-size: 20px;
+	padding: 4px;
+}
