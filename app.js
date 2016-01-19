@@ -36,6 +36,8 @@ io = require('socket.io').listen(server, { log: false });
 server.listen(app.get("port"));
 //console.log(port);
 
+//io.set('transports', ['xhr-polling']);
+//io.set('polling duration', 10);
 
 
 // global entry point for new connections
@@ -44,9 +46,9 @@ io.on('connection', function (socket) {
   var ns = url.parse(socket.handshake.url, true).query.ns;
   console.log('connected ns: '+ns)
 
-      var index = ns.indexOf(port);
+      var index = ns.indexOf("com");
       console.log(port);
-      var namespace = ns.substring(index+4,ns.length);
+      var namespace = ns.substring(index+3,ns.length);
       console.log(namespace);
       var groupname = namespace.substring(1,namespace.length);
       console.log(groupname);

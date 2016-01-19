@@ -13,7 +13,7 @@ $(document).ready(function(){
 	}
 
 	var groupName = $("#groupName").text()
-	var socket = connect('http://localhost:1337/' + groupName);
+	var socket = connect('https://limitless-mesa-4044.herokuapp.com/' + groupName);
 	
 
 	$('form').submit(function(){
