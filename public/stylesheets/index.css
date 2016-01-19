@@ -27,7 +27,7 @@ body{
 
 	text-align: center;
 	font-family: Lato;
-	padding-bottom: 75px;
+	padding-bottom: 10vh;
 	color: white;
 	opacity: 0;
 }
@@ -38,7 +38,8 @@ body{
 
 .start{
 	text-align: center;
-	padding-top: 100px;
+	/*padding-top: 100px;*/
+	padding-top: 10vh;
 }
 
 /*Closer Logo styling*/
@@ -55,7 +56,7 @@ body{
 
 .closer-logo{
 	width: 120px;
-	padding: 125px 0px 0px 0px;
+	padding: 10vh 0px 0px 0px;
 	margin: 20px auto 10px auto;
 	position: relative;
 }
