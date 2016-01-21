@@ -10,50 +10,23 @@
 }
 
 .userlist{
-<<<<<<< HEAD
 
 	margin-top: 125px;
-
 }
 
 h1{ 
+
 	margin-top: 100px;
 }
-
 li{
 	list-style: none;
 }
 
-
 .form-body{
+
 	display: none;
-}
 
-.user-box{
-	border-radius: 20px;
-	border: 2px solid #fff;
-	background-color: #3384ff;
-	border-color: #ffffff;
-	font-family: Lato;
-	opacity: 0.75;
-	font-size: 20px;
-	padding: 4px;
-	color: black;
-	margin-top: 10px;
-}
 
-body{
-	background: url("/images/home.jpg") no-repeat;
-	background-size: 100%;
-}
-
-.btn-default{
-	min-width: 100%;
-	font-size: 18px;
-	margin: 2px;
-}
-
-<<<<<<< HEAD
 }
 
 ul{
@@ -187,5 +160,4 @@ ul{
 	height:175px;
 	width: 120px;
 	border-radius: 10px;
-
 }
