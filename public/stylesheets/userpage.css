@@ -1,0 +1,49 @@
+.message{
+	display: none;
+}
+
+
+.row{
+
+	margin-top: 75 px;
+	padding-top: 75px;
+	
+}
+.legend{
+	padding-bottom: 10px;
+}
+
+.login-title{
+	text-align: center;
+	font-size: 20px;
+	color: white;
+}
+
+.signup-form{
+	
+	font-family: Lato;
+	opacity: 0.85;
+	background-color:rgba(0,0,0,0) !important;
+	border: none !important;
+	border-left: 2px solid white !important;
+	border-right: 2px solid white !important;
+}
+
+.btn.btn-cancel-action{
+	border-radius: 0;
+}
+.btn.btn-login-submit{
+	border-radius: 0;
+}
+
+.closer{
+
+	background: url("/images/footer_lodyas.png") fixed no-repeat;
+	background-size: cover;
+	color: white;
+
+}
+
+.navbar-inverse{
+	background-color: #2c3e50;
+}

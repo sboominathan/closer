@@ -19,6 +19,9 @@ $(function(){
         
     });
 
+    var str = $(".message").text();
+    $("#sel1").val(str.slice(1,str.length-1));
+
 
     
 });

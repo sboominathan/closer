@@ -2,7 +2,7 @@
 	<head>
 		<title>{{ user.user }}'s page</title>
 		<!-- Stylesheets -->
-		<link rel='stylesheet' href='/stylesheets/signup.css' />
+		<link rel='stylesheet' href='/stylesheets/userpage.css' />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
 		<!-- Scripts -->
@@ -28,11 +28,11 @@
         		</div>
         		<div id="navbar" class="collapse navbar-collapse">
           			<ul class="nav navbar-nav navbar-right">
-                  
-            			<li><a href="/about">About</a></li>
+                   <li><a href="/home/{{user.user}}">Home</a></li>
+            		  <li><a href = "/groupList/{{user.user}}"> My Groups </a><li>
                   <li><a href="/notifications/{{user.user}}">Notifications ({{user.notifications.length}})</a></li>
-                  <li><a href="/home/{{user.user}}">Home</a></li>
-            			<li><a href="/contact">Contact</a></li>
+                 
+            			
             			<li><a href="/logout/{{user.user}}">Logout</a></li>
                   
 
@@ -63,15 +63,16 @@
                         	</div>
 
                     		<!-- Class year -->
-                    		<div class="form-group ">
+                    		<div class="form-group">
+                            <p class = "message"> {{user.year}} </p>
                       			<label for="year">Year:</label>
-                      			<select class="form-control" id="sel1" name = "year" value = {{user.year}}>
+                      			<select class="form-control" id="sel1" name = "year" >
 
-                        			<option>Freshman</option>
-                        			<option>Sophomore</option>
-                        			<option>Junior</option>
-                        			<option>Senior</option>
-                        			<option>Other</option>
+                        			<option value = "Freshman">Freshman</option>
+                        			<option value = "Sophomore">Sophomore</option>
+                        			<option value = "Junior">Junior</option>
+                        			<option value = "Senior">Senior</option>
+                        			<option value = "Other">Other</option>
                       			</select>
                     		</div>
 
@@ -79,18 +80,18 @@
                       <div class="form-group form-group-options col-md-6">
                               <label for="classes">Current Courses (Course numbers please)</label>
 
-                      {{#each courses}}
+                          {{#each courses}}
                     		
                                 <div class="input-group input-group-option col-xs-12">
                                     <input type="text" value = {{this}} name="option" class="form-control" placeholder="Enter Class Name" required>
                                     <span class="input-group-addon input-group-addon-remove">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </span>
-                            	</div>
+                            	 </div>
 
                     		 
                          {{/each}}
-                         </div>
+                        </div>
                         
                         <div class = "row"></div>
                     		<!-- Bio -->
@@ -99,26 +100,35 @@
                         		<div>
                          			<p> Short Bio</p>
 
-                          			<textarea class="form-control" rows="5" id="bio" name = "bio" value = {{user.bio}}></textarea>
+                          			<textarea class="form-control" rows="5" id="bio" name = "bio" >{{user.bio}}</textarea>
 
                       			</div>
+
                     		</div>
 
                         <!-- Discoverable -->
-                        <div>
+                        <div class = "form-group form-group-options">
                           <label for="discoverable">Discoverable?: </label>
                           <select class="form-control" id="sel1" name="discoverable">
                             <option>Yes</option>
                             <option>No</option>
                           </select>
+                          <br />
                         </div>
                         
+
                     		<!-- Submit Button -->
-                    		<div class="form-group text-center">
-                        		<input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Update" /> 
-                    		</div>
+                        
+                          <div class = "col-md-3"></div>
+                      		<div class="form-group text-center">
+                          		<input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Update" /> 
+                      		</div>
+                          <div class = "col-md-3"></div>
+                        
+
+                        <div class = "row"></div>
                     		
-                    		<div class = "row"></div>
+                    		
 
                 		</form>
             		</div>

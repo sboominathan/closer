@@ -31,8 +31,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+           
 
             <li><a href="/logout/{{username}}">Logout</a></li>
           </ul>
@@ -86,7 +85,7 @@
 
                     <!-- Class input -->
                     <div class="form-group form-group-options col-md-6">
-                            <label for="classes">Current Courses (Course numbers please)</label>
+                            <label for="classes">Current Courses (Course Numbers)</label>
                                 <div class="input-group input-group-option col-xs-12">
                                     <input type="text" name="option" class="form-control" placeholder="Enter Class Name" required>
                                     <span class="input-group-addon input-group-addon-remove">
@@ -119,7 +118,7 @@
                     <!-- Submit Button -->
                     <div class="form-group text-center">
                         
-                        <button class = "btn btn-default btn-cancel-action col-md-6" onclick="window.location.href='/logout'">Cancel</button>
+                        <button class = "btn btn-default btn-cancel-action col-md-6" onclick="window.location.href='/logout/{{username}}'">Cancel</button>
                         <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Continue" /> 
                          
                     </div>
@@ -131,6 +130,7 @@
 
             </div>
         </div>
+        <div class = "col-md-3"></div>
     </div>
 </div>
 

@@ -39,55 +39,67 @@
             <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a><li>
             <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a><li>
             <li><a href = "/groupList/{{username}}"> My Groups </a><li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            
             <li><a href="/logout/{{username}}">Logout</a></li>
 
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
- 
-    <!--rendering top 5 users in array upon sign in -->
+    
+    <div class = "matchlist"><!--rendering top 5 users in array upon sign in -->
     {{#each users}}
-    <ul class = "userlist">
-        <li>{{first}}</li>
-        <li>{{last}}</li>
-        <li> {{college}}</li>
-        <li> {{courses}}</li>
 
+    <div class = "user-profile">
+        <div class = "inner-profile row">
+          <div class = "col-md-1"></div>
+          <div class = 'col-md-2'>
 
-        <!-- MODAL FOR VIEWING FULL USER PROFILE VIA POPUP -->
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#{{getIndex @index}}">
+        <img class = "profpic" src = "/images/first-pic.jpeg">
+
+          <button type="button" class="btn btn-default full-view" data-toggle="modal" data-target="#{{getIndex @index}}">
           View full profile
-        </button>
+          </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id={{getIndex @index}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{first}} {{last}}</h4>
-              </div>
-              <div class="modal-body">
-                <p>{{first}} {{last}}</p>
-                <p> {{college}}</p>
-                <p> {{courses}}</p>
-                <p> {{bio}} </p>
+          <!-- Modal -->
+          <div class="modal fade" id={{getIndex @index}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">{{first}} {{last}}</h4>
+                </div>
+                <div class="modal-body">
+                  <p>{{first}} {{last}}</p>
+                  <p> {{college}}</p>
+                  <p> {{courses}}</p>
+                  <p> {{bio}} </p>
 
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-
+        
+          <div class = "col-md-4">
+            <p class = "userinfo">{{first}} {{last}} </p>
+            <p class = "userinfo2"> College : {{college}} </p>
+            <p class = "userinfo2"> Currently Taking: {{courses}}</p>
+            <br />
+            <br />
+          </div>
+         
+        <!-- MODAL FOR VIEWING FULL USER PROFILE VIA POPUP -->
+        <!-- Button trigger modal -->
+        
+        
+        <div class = "btn-group pull-right">
         <!-- MODAL FOR INVITING USER TO AN EXISTING GROUP -->
-        <button type = "button" class = "btn btn-default" data-toggle = "modal" data-target= "#addgroup{{getIndex @index}}" > Invite to Existing Group </button>
+        <button type = "button" class = "btn btn-default old-group" data-toggle = "modal" data-target= "#addgroup{{getIndex @index}}" > <p class = "btn-text">Invite to Existing Group</p> </button>
 
 
 
@@ -142,7 +154,7 @@
 
 
 
-         <button type = "button" class = "btn btn-default" data-toggle = "modal" data-target= "#creategroup{{getIndex @index}}" > Invite to New Group </button>
+         <button type = "button" class = "btn btn-default new-group" data-toggle = "modal" data-target= "#creategroup{{getIndex @index}}" > <p class = "btn-text">Invite to New Group</p> </button>
 
 
 
@@ -190,31 +202,36 @@
 
 
 
-        <button onclick = "/removeUser/{{getIndex @index}}" > Not Interested </button>
+        <button class = "btn btn-default last-button reject" onclick = "window.location.href='/removeUser/{{../username}}/{{user}}'" > <p class = "btn-text">Not Interested</p> </button>
+
+         </div>
 
 
 
 
 
 
+        
 
-
-
-
-
-      </ul>
+      </div>
+  
+     
+    </div>
     {{/each}}
 
-    <div class = "col-md-3"></div>
-    <!--allows for showing next 5 or previous 5 matches -->
 
-    <button class = "prev col-md-3" onclick = "window.location.href='/previous/{{username}}'"> Previous </button>
-    <button class = "next col-md-3" onclick = "window.location.href='/next/{{username}}'"> Next </button>
+    <div class = "row buttons">
+      <div class = "col-md-3"></div>
+      <!--allows for showing next 5 or previous 5 matches -->
 
+      <button class = " col-md-3 btn btn-default prev" onclick = "window.location.href='/previous/{{username}}'"> PREVIOUS </button>
+      <button class = " col-md-3 btn btn-default next" onclick = "window.location.href='/next/{{username}}'"> NEXT </button>
 
-     <div class = "col-md-3"></div>
+     
+       <div class = "col-md-3"></div>
     
-
+    </div>
+</div>
 
   </body>
 </html>

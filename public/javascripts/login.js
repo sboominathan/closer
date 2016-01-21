@@ -1,43 +1,84 @@
 $(document).ready(function(){
 
 	// Logo Animation
-	$(".letter-C").delay(500).animate({left: '310px'}, 2000);
-	$(".letter-L").delay(500).animate({left: '186px'}, 2000);
-	$(".letter-O").delay(500).animate({left: '62px'}, 2000);
-	$(".letter-S").delay(500).animate({right: '47px', width: '90px', bottom: '16px'}, 2000);
-	// $(".letter-E").animate({right: '126px', width: '60px', bottom: '32px'}, 2000);
-	$(".letter-E").delay(500).animate({opacity: '0'}, 2000);
-	$(".letter-R").delay(500).animate({opacity: '0'}, 2000);
-	$(".title").delay(2500).animate({opacity: '1'}, 2000);
-	$(".subtitle").delay(3500).animate({opacity: '1'}, 2500);
+
+	if ($(".message").text()=="" && $(".message2").text() ==""){
+		$(".letter-C").delay(500).animate({left: '310px'}, 2000);
+		$(".letter-L").delay(500).animate({left: '186px'}, 2000);
+		$(".letter-O").delay(500).animate({left: '62px'}, 2000);
+		$(".letter-S").delay(500).animate({right: '47px', width: '90px', bottom: '16px'}, 2000);
+		// $(".letter-E").animate({right: '126px', width: '60px', bottom: '32px'}, 2000);
+		$(".letter-E").delay(500).animate({opacity: '0'}, 2000);
+		$(".letter-R").delay(500).animate({opacity: '0'}, 2000);
+		$(".title").delay(2500).animate({opacity: '1'}, 2000);
+		$(".subtitle").delay(3500).animate({opacity: '1'}, 2500);
+	}
+
+	else{
+		$(".letter-C").animate({left: '310px'}, 0);
+		$(".letter-L").animate({left: '186px'}, 0);
+		$(".letter-O").animate({left: '62px'}, 0);
+		$(".letter-S").animate({right: '47px', width: '90px', bottom: '16px'}, 0);
+		$(".letter-E").animate({opacity: '0'}, 0);
+		$(".letter-R").animate({opacity: '0'}, 0);
+		$(".title").animate({opacity: '1'}, 0);
+		$(".subtitle").animate({opacity: '1'}, 0);
+	}
 
 	// Various Button functions
-	$(".log-in-button").click( function() {
-		$(".log-in-form").css("display", "block");
+	if ($(".message").text()!=""){
+
+		$(".log-in-form").css("opacity", "1");
 		$(".log-in-button").css("display", "none");
 		$(".sign-up-button").css("display", "none");
+		$("#secret").css("background", "black")
+
+	}
+
+	if ($(".message2").text()!=""){
+
+		$(".sign-up-form").css("opacity", "1");
+		$(".log-in-button").css("display", "none");
+		$(".sign-up-button").css("display", "none");
+		$("#secret2").css("background", "black")
+
+
+	}
+
+	$(".log-in-button").click( function() {
+		
+		$(".log-in-form").delay(100).animate({ opacity: 0.85}, 500);
+
+		$(".log-in-button").css("display", "none");
+		$(".sign-up-button").css("display", "none");
+		$("#username-email").focus();
 	});
 
+
 	$(".sign-up-button").click( function() {
+
+		$(".sign-up-form").delay(100).animate({ opacity: 0.85}, 500);
 		$(".sign-up-form").css("display", "block");
 		$(".log-in-button").css("display", "none");
 		$(".sign-up-button").css("display", "none");
+		$("#username").focus();
 	});
 
 	$(".no-account").click(	function() {
-		$(".log-in-form").css("display", "none");
-		$(".sign-up-form").css("display", "block");
+		$(".log-in-form").css("opacity", "0");
+		$(".sign-up-form").delay(100).animate({ opacity: 0.85}, 500);
 	});
 
 	$(".yes-account").click( function() {
-		$(".log-in-form").css("display", "block");
-		$(".sign-up-form").css("display", "none");
+		$(".sign-up-form").css("opacity", "0");
+		$(".log-in-form").delay(100).animate({ opacity: 0.85}, 500);
 	});
 
 	$(".btn-cancel-action").click( function(e) {
 		e.preventDefault();
-		$(".log-in-form").css("display", "none");
-		$(".sign-up-form").css("display", "none");
+		
+		$(".log-in-form").delay(0).animate({ opacity: 0}, 125);
+		$(".sign-up-form").delay(0).animate({ opacity: 0}, 125);
 		$(".log-in-button").css("display", "block");
 		$(".sign-up-button").css("display", "block");
 	});
@@ -53,5 +94,11 @@ $(document).ready(function(){
 			$("#signup").submit();
 		}
 	});
+
+	$("#username-email").mouseover(function(e){
+
+		$("#username-email").select();
+
+	})
 
 });

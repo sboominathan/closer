@@ -8,7 +8,24 @@ var rankingAlgy = require("../matches_handler");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
+  if (req.session && req.session.user){
+
+    var currUser = req.session.user;
+    var username = currUser.user;
+    db.users.find({user: username}).toArray(function(err, data){
+
+      if (data.length > 0){
+
+        res.redirect("/home/" + username);
+      }
+
+    })
+
+  }
+  else{
   res.render('index', { title: 'Closer' });
+}
 });
 
 
@@ -30,6 +47,7 @@ router.post('/login', function(req, res, next) {
       db.users.find({user:username}).toArray(function(err,peeps){
 
        		var currUser = peeps[0];
+          req.session.user = peeps[0]
 
           console.log(currUser.user);
        		//check if filled out
@@ -75,12 +93,12 @@ router.post('/login', function(req, res, next) {
             });
        		}
        		else{
-       			res.render("signup", {title: "Closer"});
+       			res.render("signup", {title: "Closer", username: username});
        		}
       	});
       }
       else {
-        res.send("Sorry, that's an incorrect username/password combination!");
+        res.render("index", {title: "Closer", username: username, message: "Sorry, your username/password combination is incorrect!"});
       }
     
      });
@@ -104,7 +122,7 @@ router.post("/signup", function(req, res, next){
   	//username already in use
     if (peeps.length > 0) { 
       // the user needs to be updated
-      res.redirect("/"); //render index page with notification that the username has already been taken
+     res.render("index", {title: "Closer", username: username, message2: "Sorry, that username is already taken!" }); //render index page with notification that the username has already been taken
       }
      else if (password == passwordcheck) { 
 
@@ -125,6 +143,12 @@ router.post("/signup", function(req, res, next){
        
       	  
       }
+
+      else{
+
+        res.render("index", {title: "Closer", username: username, message2: "Your passwords don't match!" }); 
+
+      }
     
      });
 
@@ -138,6 +162,8 @@ router.post("/userinfo/:username", function(req,res,next){
   var username = req.params.username;
   db.users.find({user:username}).toArray(function(err, data) {
     var currUser = data[0];
+    req.session.user = currUser;
+
     
     //retrieve request Info.
   	var first = req.body.firstname;
@@ -149,7 +175,7 @@ router.post("/userinfo/:username", function(req,res,next){
   	var bio = req.body.bio;
   	
     //Update user object with new info.
-  	db.users.update(
+  	 db.users.update(
       { user: currUser.user },
       {
         $set: {
@@ -166,10 +192,14 @@ router.post("/userinfo/:username", function(req,res,next){
           notifications: []
 
         }
+      } , function(err){
+
+        res.render("welcome", {title: "Closer", username: username});
       }
+        
   	);
   	//Render Userpage
-    res.render("userpage", {title: "Closer", user: currUser});
+    
   });
 });
 
@@ -196,6 +226,7 @@ router.get("/contact", function(req,res,next){
 router.get("/logout/:username", function(req,res,next){
 	//Retrieve Username from url request
   var username = req.params.username;
+  req.session.reset();
   console.log("Logging " + username + " out");
   db.users.find({user: username}).toArray( function(err, data) {
     //Reset Matches
@@ -220,7 +251,7 @@ router.post("/update/:username", function(req, res, next) {
       $set: {
         college: req.body.college,
         year: req.body.year,
-        courses: req.body.courses,
+        courses: req.body.option,
         bio:req.body.bio,
         discoverable: disc
       }
@@ -246,6 +277,11 @@ router.post("/update/:username", function(req, res, next) {
 
         //retrieve match objects given array of match names
         var match_objects = [];
+
+        if (firstMatches.length==0){
+                res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+              }
+
         for(var i = 0; i < firstMatches.length; i++) {
           console.log("match " + firstMatches[i]);
           db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
@@ -283,8 +319,10 @@ router.get("/next/:username", function(req,res,next){
       pos = data[0].pos;
     
     
-      //advance pos 5 spaces
-      pos += 5;
+      //advance pos 5 spaces  
+      if (pos+5<matchArray.length){
+       pos +=5 ;
+     }
 
       //update position in database
       db.matches.update(
@@ -325,18 +363,21 @@ router.get("/previous/:username", function(req,res,next){
     var firstMatches;
     var pos;
     db.matches.find({user: username}).toArray(function(err, data){
+
       matchArray = data[0].yes;
       pos = data[0].pos;
 
       //Return User 5 spaces
-      pos -= 5;
+      if (pos!=0){
+        pos -= 5;
+      }
 
       //update position in database
       db.matches.update(
         {user: username},
         {$set: {pos: pos}}
       );
-      firstMatches = matchArray.slice(pos,pos-5);
+      firstMatches = matchArray.slice(pos,pos+5);
 
       //retrieve match objects given array of match names
       var match_objects = [];
@@ -395,6 +436,10 @@ router.get("/home/:username", function(req, res, next) {
         var firstMatches = matchArray.slice(pos,pos+5);
         var groups = currUser.groups;
         var match_objects = [];
+
+        if (firstMatches.length==0){
+                res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+              }
 
         //retrieve match objects given array of match names
         for(var i = 0; i < firstMatches.length; i++) {
@@ -608,6 +653,62 @@ router.get("/groups/:username/:groupName", function(req,res,next){
 
 });
 
+//USER CHOOSES 'NOT INTERESTED' FOR A CERTAIN MATCH IN THEIR LIST
+
+router.get("/removeUser/:username/:removingUser", function(req,res,next){
+
+  var username = req.params.username;
+  var removingUser = req.params.removingUser;
+
+  console.log("yo");
+
+  db.users.find({user: username}).toArray(function(err, peeps){
+
+    var currUser = peeps[0];
+
+
+    db.matches.find({user: username}).toArray(function(err, data){
+      console.log("hi");
+      var matchArray = data[0].yes;
+      var noMatchArray = data[0].no;
+      var pos = data[0].pos;
+      console.log(matchArray);
+      var index = matchArray.indexOf(removingUser);
+     matchArray.splice(index, 1);
+      console.log(matchArray);
+     noMatchArray.push(removingUser);
+      console.log(noMatchArray);
+      db.matches.update({user: username}, 
+        {$set: {yes: matchArray, no: noMatchArray}});
+
+      firstMatches = matchArray.slice(pos,pos+5);
+
+          //retrieve match objects given array of match names
+          var match_objects = [];
+
+          if (firstMatches.length==0){
+                  res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+                }
+
+          for(var i = 0; i < firstMatches.length; i++) {
+            console.log("match " + firstMatches[i]);
+            db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
+              match_objects.push(data[0]);
+              
+              //Check if match_objects contains all user objects referred to in first matches.
+              if( match_objects.length === firstMatches.length ) {
+                //Redirect to matches page
+                res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
+              };
+            });
+          };
+
+
+
+    })
+  })
+
+})
 
 
 

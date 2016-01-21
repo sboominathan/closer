@@ -30,8 +30,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+           
 
           </ul>
         </div><!--/.nav-collapse -->
@@ -44,11 +43,14 @@
       <div class="start container">
         <div class="row">
 
+
+
           <!-- Log-in pop-up -->
           <div class="well login-box log-in-form">
             <form action="/login" method = "post" id = "login" >
               <legend class="login-title">LOGIN</legend>
               <!-- Username -->
+              <div id = "secret"> <p class = "message">{{message}}</p> </div>
               <div class="form-group">
                 <label for="username-email">Username</label>
                 <input value='' name = "username" id="username-email" placeholder="Username" type="text" class="form-control" required />
@@ -78,9 +80,10 @@
             <form action="/signup" method = "post" id = "signup">
               <legend class="signup-title">SIGN UP</legend>
               <!-- Username -->
+              <div id = "secret2"><p class = "message2">{{message2}}</p></div>
               <div class="form-group">
                 <label for="username-email"> Username</label>
-                <input name = "username" value='' id="username-email" placeholder="Username" type="text" class="form-control" required />
+                <input name = "username" value='' id="username" placeholder="Username" type="text" class="form-control" required />
               </div>
               <!-- Email -->
               <div class="form-group">
@@ -112,9 +115,12 @@
 
             </form>
           </div>
+          </div>
+      
 
           <!-- Closer Logo/Titles -->
-          <ul class="logo-list-container">
+
+           <ul class="logo-list-container">
             <li><img src="/images/C.png" class="closer-logo img-responsive letter-C"></img></li>
             <li><img src="/images/L.png" class="closer-logo img-responsive letter-L"></img></li>
             <li><img src="/images/O.png" class="closer-logo img-responsive letter-O"></img></li>
@@ -125,7 +131,7 @@
           <h1 class="title">CLOSER</h1>
           <h4 class="subtitle"> SEEK. STUDY. SUCCEED. </h4>
         </div>
-      </div>
+        
 
       <!-- Log-in and sign-up buttons -->
       <div class="container">
@@ -146,9 +152,10 @@
     <div class="home-strip ele-num-1">
       <div class="container">
         <div class="row">
-          <div class="col-md-4">
-            <h2>Info about our app</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae erat vel purus pharetra viverra vel ac risus. Vivamus aliquet nunc pulvinar magna dignissim semper. Mauris eget tellus feugiat, suscipit ex non, suscipit nibh. Sed eu consectetur dui</p>
+          <div class = "col-md-1"></div>
+          <div class="col-md-5 blurb">
+            <h2>Struggling to Find Study Groups?</h2>
+            <p class=  "about">College can often be an intimidating place, especially when the workload gets tough and you have almost nobody to turn to for help. Struggling alone is one of the worst feelings in the world and something that no one have  to experience. </p>
           </div>
         </div>
       </div>
@@ -157,10 +164,10 @@
     <div class="home-strip ele-num-2">
       <div class="container">
         <div class="row">
-          <div class="col-md-8"></div>
-          <div class="col-md-4">
-            <h2>Info about our app</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae erat vel purus pharetra viverra vel ac risus. Vivamus aliquet nunc pulvinar magna dignissim semper. Mauris eget tellus feugiat, suscipit ex non, suscipit nibh. Sed eu consectetur dui</p>
+          <div class="col-md-7"></div>
+          <div class="col-md-5 blurb">
+            <h2>Closer Offers a Solution...</h2>
+            <p class= 'about'>We connect you with people from all around your college campus, providing you with a list of personalized matches produced from our ranking algorithm. You're just one click of a button away from finding a new study group (or several) for each of your classes!  </p>
           </div>
         </div>
       </div>
@@ -169,11 +176,20 @@
     <div class="home-strip ele-num-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-4">
-            <h2>Info about our app</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae erat vel purus pharetra viverra vel ac risus. Vivamus aliquet nunc pulvinar magna dignissim semper. Mauris eget tellus feugiat, suscipit ex non, suscipit nibh. Sed eu consectetur dui</p>
+          <br />
+          <div class = "col-md-3"></div>
+          <div class="col-md-6">
+            <h2>Questions? Comments? Contact Us!</h2>
+            <br />
+            
+            <p> soorajb@mit.edu     |     rarnott@mit.edu        |     rodmy@mit.edu </p>
+            <br />
+            
+            <h5> Made with &hearts; by the CLOSER team </h5>
+            <br />
           </div>
         </div>
+        <div class = "row"></div>
       </div>
     </div>
 
