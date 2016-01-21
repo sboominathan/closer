@@ -52,11 +52,11 @@ body{
 
 .title-logo{
 	/*data-stellar-background-ratio="0.5";*/
-	background: url("/images/home.jpg") no-repeat;
-	background-color: #2ecc71
-	width: 100vw;
+
 	/*background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1)), url("/images/home.jpg");*/
+	background: url("/images/home.jpg") no-repeat;
 	background-size: 100%;
+	width: 100vw;
 	height: 100vh;
 	background-attachment: fixed;
 }
@@ -94,10 +94,13 @@ body{
 	font-size: 20px;
 }
 
+
 .navbar-inverse{
 	background-color: #2c3e50;
 }
-.ele-num-1{
+
+#ele-num-1{
+
 	/*data-stellar-background-ratio="0.5";*/
 	/*background: url("/images/MIT-Dome.jpg") no-repeat;*/
 	background:  url("/images/MIT-Dome.jpg") no-repeat;
@@ -106,7 +109,7 @@ body{
 	/*background-position: relative;*/
 }
 
-.ele-num-2{
+#ele-num-2{
 	/*background: url("/images/study-group.jpg") no-repeat;*/
 	/*data-stellar-background-ratio="0.5";*/
 	background: url("/images/study-group.jpg") no-repeat;

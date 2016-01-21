@@ -135,7 +135,7 @@ router.post("/signup", function(req, res, next){
             var currUser = peeps[0];
             
             //Add to matches database
-            db.matches.insert({user: username, yes: [], no: [username], pos: 0}, function(err) {
+            db.matches.insert({user: username, yes: [], no: [], pos: 0}, function(err) {
               res.render("signup", {title: "Closer", username: username});
             });
           });

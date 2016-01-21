@@ -1,68 +1,72 @@
 <!DOCTYPE html>
 <html>
-  <head>
 
-    <title>{{title}}</title>
+<head>
 
-    <link rel='stylesheet' href='/stylesheets/groupList.css' />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
-    <script src = "/javascripts/matches.js"></script>
-    <script type = "text/javascript">
+  <title>{{title}}</title>
 
-   
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/groupList.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+  <script src = "/javascripts/matches.js"></script>
+  <script type = "text/javascript"></script>
 
-    </script>
-  </head>
+</head>
 
+<body class = 'closer'>
 
-  <body class = 'closer'>
-
-    <!--navigation bar, now includes link to user's personalized profile -->
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-         <div class = "head"> <a class="navbar-brand " href="/home/{{username}}"> CLOSER </a> </div>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href = "/home/{{username}}"> Home </a><li>
-            <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a><li>
-            <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a><li>
-            
-            
-            <li><a href="/logout/{{username}}">Logout</a></li>
-
-          </ul>
-        </div><!--/.nav-collapse -->
+  <!--navigation bar, now includes link to user's personalized profile -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class = "head"> <a class="navbar-brand " href="/"> CLOSER </a> </div>
       </div>
-    </nav>
-
-
-    <div class = "container">
-      
-      <div class = "groupList row">
-      {{#each groupList}}
-      
-        <button class = "btn btn-default groupName col-md-12" onclick="window.location.href='/groups/{{../username}}/{{groupName}}'" > {{groupName}} </button>
-        <br />
-      {{/each}}
-      </div>
-
-
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a></li>
+          <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a></li>
+          <li><a href = "/groups/{{username}}"> My Groups </a></li>
+          <li><a href="/logout/{{username}}">Logout</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
+  </nav>
 
+
+  <div class = "container group-list">
+    <div class = "row">
+      <div class = "col-md-2"></div>
+      <div class = "col-md-8">
+        <div class = "row">
+          {{#each groupList}}
+          <div class = "indiv-group col-md-4">
+            <h2>{{groupName}}</h2>
+            <img src="/images/crowd-silhouette.jpg"></img>
+            <h3>Group's Focus:</h3>
+            <p>Course 1, Course 2, ...</p>
+            <h3>Group Members:</h3>
+            <ul>
+              <li>Member 1</li>
+              <li>Member 2</li>
+              <li>Member 3</li>
+            </ul>
+            <button class = "btn btn-default col-md-12" onclick="window.location.href='/groups/{{../username}}/{{groupName}}'" >Go to Chat!</button>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      <div class= "col-md-2"></div>
+    </div>
+  </div>
 
 </body>
-
 
 </html>
