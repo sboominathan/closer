@@ -10,6 +10,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src = "/javascripts/userpage.js"></script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script src="semantic/dist/semantic.min.js"></script>
 
 
 	</head>
@@ -50,7 +52,34 @@
 		<!-- Form -->   
    		<div class="container">
     		<div class="row">
-        		<div class ="col-md-3"></div>
+        		<div class ="col-md-3 current">
+              <div class="ui card">
+                 <div class = "head2"><p class="header content2">Your Profile </p> </div>
+                <div class="image">
+                  <img src = "/images/first-pic.jpeg">
+                </div>
+                <div class="content">
+                  <p class="header">{{user.first}} {{user.last}} </p>
+                  <div class="meta">
+                    <span class="college">College: {{user.college}} </span>
+                  </div>
+
+                  <div class="meta">
+                    <span class="year">Year: {{user.year}} </span>
+                  </div>
+
+                   <div class="meta">
+                    <span class="courses">Currently taking: {{user.courses}} </span>
+                  </div>
+                  <br />
+                  <div class="description meta">
+                    {{user.bio}}
+                  </div>
+                </div>
+                
+              </div>
+
+            </div>
         		<div class="col-md-6">
             		<div class="well signup-box signup-form">
                 		<form action="/update/{{user.user}}" method = "post">
@@ -134,6 +163,22 @@
                 		</form>
             		</div>
         		</div>
+
+            <div class ="col-md-3 current">
+              <div class="ui card">
+                 <div class = "head"> <p class="header content3">Your Groups </p> </div>
+                <div class="content4">
+                  {{#each user.groups}}
+                  <p class="header2">{{groupName}} </p>
+                  <p class = "header3"> Class: {{subject}} </p>
+                  {{/each}}
+                  
+                </div>
+                
+              </div>
+
+            </div>
+
     		</div>
 		</div>
 	</body>

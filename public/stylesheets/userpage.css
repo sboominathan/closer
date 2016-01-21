@@ -47,3 +47,87 @@
 .navbar-inverse{
 	background-color: #2c3e50;
 }
+
+img{
+
+	margin-left: 10px;
+	margin-top: 15px;
+}
+
+.header{
+	font-size: 25px;
+	text-align: center;
+	
+	font-family: Lato;
+	font-variant: small-caps;
+	margin-top: 0px;
+
+}
+
+.header2{
+	font-size: 25px;
+	text-align: center;
+	
+	font-family: Lato;
+	font-variant: small-caps;
+	margin-top: 25px;
+
+}
+
+
+
+.header3{
+	font-size: 20px;
+	text-align: center;
+	
+	font-family: Lato;
+	font-variant: small-caps;
+
+}
+
+.meta{
+	text-align: center;
+	font-size: 20px;
+	font-family: Lato;
+}
+
+
+.content{
+
+	border: 1px solid white;
+	width: 350px;
+	margin-left: -80px;
+	margin-top: 30px;
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.content2{
+
+	width: 300px;
+	margin-left: -50px;
+	margin-top: 0px;
+	padding: 5px;
+
+}
+
+.ui-card{
+	margin-top: 10px;
+
+}
+
+.content3{
+
+	margin-top: 5px;
+
+}
+
+.content4{
+
+	margin-top: 30px;
+}
+
+.head{
+
+	border-bottom: 1px solid white;
+}
