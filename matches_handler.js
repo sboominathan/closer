@@ -28,16 +28,17 @@ var rankingAlgy = function (username, callback) {
 				for(var i = 0; i < users.length; i ++) {
 
 					//Checks if user is discoverable
-					if(users[i].discoverable) {
+					if(users[i].discoverable && (users[i].user != username)) {
 						//Checks if college is the same == Main Filter
 						//!!!!Add && not in rejects pile
 						if( (users[i].college == user_Ob.college) && !(users[i].user in user_rejects) ) {
+							console.log(users[i].user + " is a match for " + username)
 							var common_classes = 0;
 							var us_classes = users[i].courses;
-							for(var match_class in main_classes) {
-								for(var user_class in main_classes) {
+							for(var j =0; j < main_classes.length; j++) {
+								for(var k = 0; k< us_classes.length; k ++){
 									//Checks if two classes are the same
-									if(user_class == match_class) {
+									if(us_classes[k] === main_classes[j]) {
 										//increment common classes
 										common_classes ++;
 									}
@@ -49,7 +50,7 @@ var rankingAlgy = function (username, callback) {
 							if(common_classes > 4) {
 								bin_gfour.push(users[i].user);
 							}
-							
+
 							//Everything less or equal to 4
 							switch(common_classes) {
 								case 4:
