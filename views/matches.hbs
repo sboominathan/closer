@@ -33,205 +33,213 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-         <div class = "head"> <a class="navbar-brand " href="/"> CLOSER </a> </div>
+         <div class = "head"> <a class="navbar-brand " href="/home/{{username}}"> CLOSER </a> </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             
-            <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a><li>
-            <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a><li>
-            <li><a href = "/groupList/{{username}}"> My Groups </a><li>
-            
-            <li><a href="/logout/{{username}}">Logout</a></li>
+            <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a></li>
+            <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a></li>
+            <li><a href = "/groupList/{{username}}"> My Groups </a></li>
+            <li><a href="/logout/{{username}}"> <span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
 
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-    
-    <div class = "matchlist"><!--rendering top 5 users in array upon sign in -->
-    {{#each users}}
 
-    <div class = "user-profile">
-        <div class = "inner-profile row">
-          <div class = "col-md-1"></div>
-          <div class = 'col-md-2'>
+    <div class = "row">
+      <div class = "col-md-1">
+        <br /> <br /> <br /><br /> <br /> <br /><br /> <br /> <br />
+        <button class = "btn previous" onclick = "window.location.href='/previous/{{username}}'"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      </div>
+       <div class = "col-md-10"> 
+        <div class = "matchlist"><!--rendering top 5 users in array upon sign in -->
+        {{#each users}}
 
-        <img class = "profpic" src = "/images/first-pic.jpeg">
+        <div class = "user-profile">
+            <div class = "inner-profile row">
+              
+              <div class = 'col-md-2'>
 
-          <button type="button" class="btn btn-default full-view" data-toggle="modal" data-target="#{{getIndex @index}}">
-          View full profile
-          </button>
+            <img class = "profpic" src = "/images/first-pic.jpeg">
 
-          <!-- Modal -->
-          <div class="modal fade" id={{getIndex @index}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">{{first}} {{last}}</h4>
-                </div>
-                <div class="modal-body">
-                  <p>{{first}} {{last}}</p>
-                  <p> {{college}}</p>
-                  <p> {{courses}}</p>
-                  <p> {{bio}} </p>
+              <button type="button" class="btn btn-default full-view" data-toggle="modal" data-target="#{{getIndex @index}}">
+              View full profile
+              </button>
 
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        
-          <div class = "col-md-4">
-            <p class = "userinfo">{{first}} {{last}} </p>
-            <p class = "userinfo2"> College : {{college}} </p>
-            <p class = "userinfo2"> Currently Taking: {{courses}}</p>
-            <br />
-            <br />
-          </div>
-         
-        <!-- MODAL FOR VIEWING FULL USER PROFILE VIA POPUP -->
-        <!-- Button trigger modal -->
-        
-        
-        <div class = "btngroup pull-right">
-        <!-- MODAL FOR INVITING USER TO AN EXISTING GROUP -->
-        <button type = "button" class = "btn btn-default old-group" data-toggle = "modal" data-target= "#addgroup{{getIndex @index}}" > <p class = "btn-text">Invite to Existing Group</p> </button>
-
-
-
-          <div class="modal fade" id="addgroup{{getIndex @index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Which group do you want to invite to?</h4>
-              </div>
-              <div class="modal-body">
-                {{#each ../groups}}
-
-                <form action="/create/{{../user}}" method = "post" id = "create-group" >
-                  <div class = "form-body">
-                    <div class="form-group">
-                        <label for="username-email">Invited By:</label>
-                        <input value={{../../username}} name = "invitername" id="invitername" placeholder="Group name" type="text" class="form-control" readonly = "readonly" required />
+              <!-- Modal -->
+              <div class="modal fade" id={{getIndex @index}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">{{first}} {{last}}</h4>
                     </div>
-                    <div class="form-group">
-                        <label for="username-email">Group Name</label>
-                        <input value='{{groupName}}' name = "groupname" id="groupname" placeholder="Group name" type="text" class="form-control" readonly = "readonly" required />
+                    <div class="modal-body">
+                      <p>{{first}} {{last}}</p>
+                      <p> {{college}}</p>
+                      <p> {{courses}}</p>
+                      <p> {{bio}} </p>
+
                     </div>
-                    <div class="form-group">
-                        <label for="username-email">Subject/Class (optional)</label>
-                        <input value='{{subject}}' name = "subject" id="subject" placeholder="Subject" type="text" class="form-control" readonly = "readonly" />
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                   </div>
-                    
-                    <div class="form-group text-center">
-                        <div class = "col-md-3"></div>
-
-                        <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="{{groupName}}" />
-                        <div class = "col-md-3"></div>
-                        <div class = "row"></div>
-                    </div>
-                  </form>
-
-                {{/each}}
-                
-              </div>
-              <div class="modal-footer">
-                
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-
-        <!-- MODAL FOR INVITING USER TO AN EXISTING GROUP -->
-
-
-
-
-         <button type = "button" class = "btn btn-default new-group" data-toggle = "modal" data-target= "#creategroup{{getIndex @index}}" > <p class = "btn-text">Invite to New Group</p> </button>
-
-
-
-
-
-           <div class="modal fade" id="creategroup{{getIndex @index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Create a new group</h4>
+            
+              <div class = "col-md-4">
+                <p class = "userinfo">{{first}} {{last}} </p>
+                <p class = "userinfo2"> College : {{college}} </p>
+                <p class = "userinfo2"> Currently Taking: {{courses}}</p>
+                <br />
+                <br />
               </div>
-              <div class="modal-body">
-                <form action="/create/{{user}}" method = "post" id = "create-group" >
-                    <div class="form-group">
-                        <label for="username-email">Invited By:</label>
-                        <input value={{../username}} name = "invitername" id="invitername" placeholder="Group name" type="text" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="username-email">Group Name</label>
-                        <input value='' name = "groupname" id="groupname" placeholder="Group name" type="text" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="username-email">Subject/Class (optional)</label>
-                        <input value='' name = "subject" id="subject" placeholder="Subject" type="text" class="form-control"  />
-                    </div>
-                    
-                    <div class="form-group text-center">
-                        <button type="button" class="btn btn-default col-md-6" data-dismiss="modal">Cancel</button>
-                        <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Create" />
-                        <div class = "row"></div>
-                    </div>
-                    
-                </form>
+             
+            <!-- MODAL FOR VIEWING FULL USER PROFILE VIA POPUP -->
+            <!-- Button trigger modal -->
+            
+            
+            <div class = "btngroup  btn-group pull-right">
+            <!-- MODAL FOR INVITING USER TO AN EXISTING GROUP -->
+            <button type = "button" class = "btn btn-default old-group" data-toggle = "modal" data-target= "#addgroup{{getIndex @index}}" > <p class = "btn-text"> <span class="glyphicon glyphicon-plus-sign"></span>Invite to Existing Group</p> </button>
 
 
-              </div>
-              <div class="modal-footer">
-                
+
+              <div class="modal fade" id="addgroup{{getIndex @index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Which group do you want to invite to?</h4>
+                  </div>
+                  <div class="modal-body">
+                    {{#each ../groups}}
+
+                    <form action="/create/{{../user}}" method = "post" id = "create-group" >
+                      <div class = "form-body">
+                        <div class="form-group">
+                            <label for="username-email">Invited By:</label>
+                            <input value={{../../username}} name = "invitername" id="invitername" placeholder="Group name" type="text" class="form-control" readonly = "readonly" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="username-email">Group Name</label>
+                            <input value='{{groupName}}' name = "groupname" id="groupname" placeholder="Group name" type="text" class="form-control" readonly = "readonly" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="username-email">Subject/Class (optional)</label>
+                            <input value='{{subject}}' name = "subject" id="subject" placeholder="Subject" type="text" class="form-control" readonly = "readonly" />
+                        </div>
+                      </div>
+                        
+                        <div class="form-group text-center">
+                            <div class = "col-md-3"></div>
+
+                            <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="{{groupName}}" />
+                            <div class = "col-md-3"></div>
+                            <div class = "row"></div>
+                        </div>
+                      </form>
+
+                    {{/each}}
+                    
+                  </div>
+                  <div class="modal-footer">
+                    
+                  </div>
+                </div>
               </div>
             </div>
+
+
+            <!-- MODAL FOR INVITING USER TO AN EXISTING GROUP -->
+
+
+
+
+             <button type = "button" class = "btn btn-default new-group" data-toggle = "modal" data-target= "#creategroup{{getIndex @index}}" > <p class = "btn-text"> <span class="glyphicon glyphicon-plus-sign"></span>Invite to New Group</p> </button>
+
+
+
+
+
+               <div class="modal fade" id="creategroup{{getIndex @index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create a new group</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form action="/create/{{user}}" method = "post" id = "create-group" >
+                        <div class="form-group">
+                            <label for="username-email">Invited By:</label>
+                            <input value={{../username}} name = "invitername" id="invitername" placeholder="Group name" type="text" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="username-email">Group Name</label>
+                            <input value='' name = "groupname" id="groupname" placeholder="Group name" type="text" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="username-email">Subject/Class (optional)</label>
+                            <input value='' name = "subject" id="subject" placeholder="Subject" type="text" class="form-control"  />
+                        </div>
+                        
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-default col-md-6" data-dismiss="modal">Cancel</button>
+                            <input type="submit" class="btn btn-default btn-login-submit col-md-6" value="Create" />
+                            <div class = "row"></div>
+                        </div>
+                        
+                    </form>
+
+
+                  </div>
+                  <div class="modal-footer">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <button class = "btn btn-default last-button reject" onclick = "window.location.href='/removeUser/{{../username}}/{{user}}'" > <p class = "btn-text"> <span class="glyphicon glyphicon-remove-sign"></span>Not Interested</p> </button>
+
+             </div>
+
+
+
+
+
+
+            
+
           </div>
+      
+         
         </div>
+        {{/each}}
 
 
+        <div class = "row buttons">
+          <div class = "col-md-3"></div>
+          <!--allows for showing next 5 or previous 5 matches -->
 
-
-        <button class = "btn btn-default last-button reject" onclick = "window.location.href='/removeUser/{{../username}}/{{user}}'" > <p class = "btn-text">Not Interested</p> </button>
-
-         </div>
-
-
-
-
-
-
+         
+           <div class = "col-md-3"></div>
         
-
-      </div>
-  
-     
+        </div>
     </div>
-    {{/each}}
-
-
-    <div class = "row buttons">
-      <div class = "col-md-3"></div>
-      <!--allows for showing next 5 or previous 5 matches -->
-
-      <button class = " col-md-3 btn btn-default prev" onclick = "window.location.href='/previous/{{username}}'"> PREVIOUS </button>
-      <button class = " col-md-3 btn btn-default next" onclick = "window.location.href='/next/{{username}}'"> NEXT </button>
-
-     
-       <div class = "col-md-3"></div>
-    
+  </div>
+  <div class = "col-md-1">
+        <br /> <br /> <br /><br /> <br /> <br /><br /> <br /> <br />
+        <button class = "btn next2 pull-right" onclick = "window.location.href='/next/{{username}}'"><span class="glyphicon glyphicon-chevron-right"></span></button>
     </div>
 </div>
 

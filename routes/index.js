@@ -644,7 +644,8 @@ router.get("/groups/:username/:groupName", function(req,res,next){
 		db.groups.find({groupName: groupName}).toArray(function(err, peeps){
 
 			var chatHistory = peeps[0].chat;
-			res.render("groups", {groupName: groupName, username: username, user: data[0], chatHistory: chatHistory});
+      var groupMembers = peeps[0].userList;
+			res.render("groups", {groupName: groupName, username: username, user: data[0], chatHistory: chatHistory, groupMembers: groupMembers});
 
 		})
 		

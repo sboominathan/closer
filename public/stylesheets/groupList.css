@@ -20,6 +20,8 @@
 body{
 	background: url("/images/home.jpg") no-repeat;
 	background-size: 100%;
+	background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfk8AdDuA_FqM1B03ZhFERwFfN2-ls4F6zBkWqoXlP4jCR7Mxi);
+	background-size: cover;
 }
 
 .btn-default{

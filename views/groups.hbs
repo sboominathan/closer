@@ -13,6 +13,10 @@
  <script src="https://limitless-mesa-4044.herokuapp.com/socket.io/socket.io.js/"></script>
  <script src = "/javascripts/groups.js"></script>
 
+  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+ <script src="semantic/dist/semantic.min.js"></script>
+
+
 
 
 
@@ -38,7 +42,7 @@
          <li><a href = "/groupList/{{username}}"> My Groups </a></li>
         <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a></li>
         <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="/logout/{{username}}">Logout</a></li>
 
       </ul>
     </div><!--/.nav-collapse -->
@@ -47,7 +51,21 @@
 
 <div class="container chatbox">
   <div class="row">
-    <div class = "col-md-3"></div>
+    <div class = "col-md-3">
+
+              <div class="ui card">
+                 <div class = "head2"> <p class="header content3"> Current Members </p> </div>
+                <div class="content4">
+                  {{#each groupMembers}}
+                  <p class="header2">{{this}} </p>
+                  {{/each}}
+                  
+                </div>
+                
+              </div>
+
+
+    </div>
     <div class="col-md-6">
 
       <div class="panel panel-primary panel-transparent">

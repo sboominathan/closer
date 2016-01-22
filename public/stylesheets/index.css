@@ -150,6 +150,7 @@ body{
 	opacity: 100%;
 	min-height: 50px;
 	color: black;
+	padding: 8px;
   	border: 2px solid white;
 	font-size: 25px;
 	display: inline;
@@ -207,7 +208,8 @@ a:hover{
 	margin-top: 25px;
 	margin-left: 200px;
 	background: rgba(0,0,0,0) !important;
-	color: white
+	color: white;
+	z-index: 1;
 }
 
 input:focus{

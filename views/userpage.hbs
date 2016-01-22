@@ -10,8 +10,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src = "/javascripts/userpage.js"></script>
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <script src="semantic/dist/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/semantic/out/themes/semantic.min.css">
+    <script src="/semantic/out/themes/semantic.min.js"></script>
 
 
 	</head>
@@ -54,9 +54,9 @@
     		<div class="row">
         		<div class ="col-md-3 current">
               <div class="ui card">
-                 <div class = "head2"><p class="header content2">Your Profile </p> </div>
+                 <div class = "head2"><p class="header content2"> <span class="glyphicon glyphicon-user"></span>Your Profile </p> </div>
                 <div class="image">
-                  <img src = "/images/first-pic.jpeg">
+                  <img  src = "/images/first-pic.jpeg">
                 </div>
                 <div class="content">
                   <p class="header">{{user.first}} {{user.last}} </p>
@@ -166,7 +166,7 @@
 
             <div class ="col-md-3 current">
               <div class="ui card">
-                 <div class = "head"> <p class="header content3">Your Groups </p> </div>
+                 <div class = "head"> <p class="header content3"> <span class="glyphicons glyphicons-group"></span>Your Groups </p> </div>
                 <div class="content4">
                   {{#each user.groups}}
                   <p class="header2">{{groupName}} </p>

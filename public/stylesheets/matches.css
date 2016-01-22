@@ -4,10 +4,49 @@
 	
 	background: url("/images/footer_lodyas.png") fixed no-repeat;
 	background: none;
+
+	background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfk8AdDuA_FqM1B03ZhFERwFfN2-ls4F6zBkWqoXlP4jCR7Mxi);
+	background: none;
+	background-size: cover;
 	background-size: cover;
 	color: black;
 	font-variant: small-caps;
 
+}
+
+.col-md-1{
+	height: 100%
+}
+
+.btn.previous{
+
+	margin-top: 100px;
+	height: 200px;
+	position: fixed;
+	background: black;
+	color: white;
+}
+
+.btn.next2{
+
+	margin-top: 100px;
+	margin-left: 35px;
+	height: 200px;
+	position: fixed;
+	background: black ;
+	color: white;
+}
+
+.btn.previous:hover{
+
+	color: black;
+	background-color: white;
+}
+
+.btn.next2:hover{
+
+	color: black;
+	background-color: white;
 }
 
 .userlist{
@@ -48,7 +87,16 @@ ul{
 	background-color: #2980b9;
 	color: white;
 	padding: 10px;
-	margin-top: 0px;
+	margin-top: 10px;
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	border-radius: 0;
+}
+
+.btn.full-view:hover{
+
+	background:  #2c3e50;
+	color: white;
 }
 
 .last-button{
@@ -58,30 +106,67 @@ ul{
 
 .btn.old-group{
 
-	background-color: gray;
+	background-color: none;
+	color: black;
+	padding-top padding-bottom: 0px;
+	padding-left padding-right: 10px;
+	opacity: 0.85;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+
+}
+
+.btn.old-group:hover{
+
+	background-color: green;
 	color: white;
-	padding: 10px;
 	opacity: 0.85;
 
 }
 
 .btn.new-group{
 
-	background-color: gray;
+	background-color: none;
+	color: black;
+	padding-top padding-bottom: 0px;
+	padding-left padding-right: 10px;
+	opacity: 0.85;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+
+}
+
+.btn.new-group:hover{
+
+	background-color: green;
 	color: white;
-	padding: 10px;
 	opacity: 0.85;
 
 }
 
 .btn.reject{
 
-	background-color: gray;
+	background-color: none;
+	color: black;
+	padding-top padding-bottom: 0px;
+	padding-left padding-right: 10px;
+	opacity: 0.85;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0, .75);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0, .75);
+
+}
+
+.btn.reject:hover{
+
+	background-color: red;
 	color: white;
-	padding: 10px;
 	opacity: 0.85;
 
 }
+
 
 .btn.prev{
 
@@ -110,7 +195,7 @@ ul{
 
 .user-profile{
 	margin-top: 85px;
-	border-top: 1px solid black;
+	
 	border-bottom: 1px solid black;
 	border-radius: 2px;
 	background-color: none;
@@ -130,9 +215,10 @@ ul{
 }
 
 .btngroup{
-	margin-right: 0px;
+	margin-right: -50px;
+
 	margin-bottom: 25px;
-	margin-top: 125px;
+	margin-top: 90px;
 
 
 };
@@ -163,3 +249,28 @@ ul{
 	width: 120px;
 	border-radius: 10px;
 }
+
+.glyphicon-plus-sign{
+	margin-right: 5px;
+	margin-top: 3px;
+}
+
+
+
+.glyphicon-remove-sign{
+	margin-right: 5px;
+	margin-top: 3px;
+}
+
+
+
+.glyphicon-log-out{
+	color: gray;
+	margin-right: 5px;
+}
+
+.glyphicon-log-out:hover{
+	color: white;
+	
+}
+

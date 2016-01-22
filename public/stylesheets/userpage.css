@@ -16,17 +16,18 @@
 .login-title{
 	text-align: center;
 	font-size: 20px;
-	color: white;
+	color: black;
 }
 
 .signup-form{
 	
 	font-family: Lato;
 	opacity: 0.85;
-	background-color:rgba(0,0,0,0) !important;
+	background-color:rgba(0,0,0,0) ;
 	border: none !important;
-	border-left: 2px solid white !important;
-	border-right: 2px solid white !important;
+	border-left: 2px solid black !important;
+	border-right: 2px solid black !important;
+	background: gray;
 }
 
 .btn.btn-cancel-action{
@@ -38,9 +39,10 @@
 
 .closer{
 
-	background: url("/images/footer_lodyas.png") fixed no-repeat;
+	background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfk8AdDuA_FqM1B03ZhFERwFfN2-ls4F6zBkWqoXlP4jCR7Mxi);
 	background-size: cover;
-	color: white;
+	background: none;
+	color: black;
 
 }
 
@@ -50,13 +52,17 @@
 
 img{
 
-	margin-left: 10px;
+	margin-left: 15px;
 	margin-top: 15px;
+	border-radius: 5px;
+
+
 }
 
 .header{
 	font-size: 25px;
 	text-align: center;
+	padding-left: 0px;
 	
 	font-family: Lato;
 	font-variant: small-caps;
@@ -94,12 +100,16 @@ img{
 
 .content{
 
-	border: 1px solid white;
-	width: 350px;
-	margin-left: -80px;
+	border: 1px solid black;
+	width: 320px;
+	margin-left: -50px;
 	margin-top: 30px;
 	padding: 15px;
 	border-radius: 10px;
+	background: black;
+	opacity: 0.55;
+	color: white;
+	
 }
 
 .content2{
@@ -113,6 +123,7 @@ img{
 
 .ui-card{
 	margin-top: 10px;
+	width: 320 !important;
 
 }
 
@@ -129,5 +140,23 @@ img{
 
 .head{
 
-	border-bottom: 1px solid white;
+	border-bottom: 1px solid black;
+}
+
+.head2{
+	margin-right: 50px;
+	border-bottom: 1px solid black;
+}
+
+.glyphicon-user{
+	margin-right: 5px;
+
+}
+
+.glyphicon-group{
+	margin-right: 5px;
+}
+
+.card{
+
 }

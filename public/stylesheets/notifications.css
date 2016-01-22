@@ -2,8 +2,15 @@
 
 	margin-top: 75px;
 	text-align: center;
+	font-family: Lato;
 }
 
 .navbar-inverse{
-	background-color: #2c3e50;
+	background-color: black;
+}
+
+body{
+
+	background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfk8AdDuA_FqM1B03ZhFERwFfN2-ls4F6zBkWqoXlP4jCR7Mxi);
+	background-size: cover;
 }
