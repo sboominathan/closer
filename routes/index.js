@@ -178,7 +178,7 @@ router.post("/userinfo/:username", upload.single("profpic"), function(req,res,ne
 
  var imgBuf = req.file.buffer;
  imgBuf = new Buffer(imgBuf).toString("base64");
- db.users.update({user: username}, {$set:{profpic:imgBuf}});
+ db.profpics.insert({user: username, profpic: imgBuf});
   
   db.users.find({user:username}).toArray(function(err, data) {
     var currUser = data[0];
@@ -424,12 +424,19 @@ router.get("/userview/:username", function(req, res, next) {
 
 	var username = req.params.username;
 	db.users.find({user:username}).toArray(function(err, data){
+
 		var user = data[0];
 		var courses = user.courses;
 		if (typeof courses == "string"){
 			courses = [courses];
 		}
-		res.render("userpage", {title: "Closer", user: user, courses: courses});
+
+    db.profpics.find({user: username}).toArray(function(err, peeps){
+
+      res.render("userpage", {title: "Closer", user: user, courses: courses, profpic: peeps[0]});
+
+    })
+		
 	});
 	
   //var username = currUser.user;
