@@ -14,6 +14,7 @@ mongo.connect(dbConnectionUrl, function (err, db) {
   collections.users = db.collection('users');
   collections.matches = db.collection('matches');
   collections.groups = db.collection("groups");
+  collections.profpics = db.collection("profpics")
   
 
 });

@@ -3,6 +3,7 @@ var router = express.Router();
 
 var db = require("../db-setup");
 var rankingAlgy = require("../matches_handler");
+var fs = require("fs");
 
 var multer = require("multer");
 
@@ -175,7 +176,15 @@ router.post("/userinfo/:username", upload.single("profpic"), function(req,res,ne
   var username = req.params.username;
   console.log("hi");
  
-  console.log("yo");
+  console.log(req.file);
+
+  fs.readFile(req.file.path, function(err, data){
+
+    var imgBuf = new Buffer(data).toString("base64")
+    db.users.update({user: username}, {$set:{profpic:imgBuf}});
+
+  })
+  
   db.users.find({user:username}).toArray(function(err, data) {
     var currUser = data[0];
     req.session.user = currUser;
