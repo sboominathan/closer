@@ -14,6 +14,12 @@
 
 }
 
+.badge{
+
+	margin-top: -15px;
+	background-color: red !important;
+}
+
 .col-md-1{
 	height: 100%
 }

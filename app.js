@@ -10,6 +10,7 @@ console.log(port);
 //var io = require("socket.io").listen( port);
 var db = require("./db-setup.js");
 
+
 /*var nsp = io.of("/mynamespace");
 
 nsp.on('connection', function(socket){

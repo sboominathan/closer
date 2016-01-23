@@ -4,6 +4,19 @@ var router = express.Router();
 var db = require("../db-setup");
 var rankingAlgy = require("../matches_handler");
 
+var multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/Users/SoorajBoominathan/Documents/6.148/MainProject/the_vault/public/images')
+  },
+  filename: function (req, file, cb) {
+    console.log("renaming as " + req.params.username);
+    cb(null, req.params.username)
+  }
+})
+
+var upload = multer({ storage: storage });
 
 
 /* GET home page. */
@@ -157,9 +170,12 @@ router.post("/signup", function(req, res, next){
 ////////////////////////////////
 
 
-router.post("/userinfo/:username", function(req,res,next){
+router.post("/userinfo/:username", upload.single("profpic"), function(req,res,next){
   //retrieve user object
   var username = req.params.username;
+  console.log("hi");
+ 
+  console.log("yo");
   db.users.find({user:username}).toArray(function(err, data) {
     var currUser = data[0];
     req.session.user = currUser;

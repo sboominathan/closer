@@ -33,10 +33,10 @@
           			<ul class="nav navbar-nav navbar-right">
                    <li><a href="/home/{{user.user}}">Home</a></li>
             		  <li><a href = "/groupList/{{user.user}}"> My Groups </a><li>
-                  <li><a href="/notifications/{{user.user}}">Notifications ({{user.notifications.length}})</a></li>
+                  <li><a href = "/notifications/{{user.user}}"> Notifications <span class="badge">{{user.notifications.length}}</span> </a></li>
                  
             			
-            			<li><a href="/logout/{{user.user}}">Logout</a></li>
+            			<li class = "logout"><a href="/logout/{{user.user}}"> <span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
                   
 
 
@@ -56,7 +56,7 @@
               <div class="ui card">
                  <div class = "head2"><p class="header content2"> <span class="glyphicon glyphicon-user"></span>Your Profile </p> </div>
                 <div class="image">
-                  <img  src = "/images/first-pic.jpeg">
+                  <img  src = "/images/{{user.user}}">
                 </div>
                 <div class="content">
                   <p class="header">{{user.first}} {{user.last}} </p>

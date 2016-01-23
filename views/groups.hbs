@@ -41,8 +41,8 @@
         <li><a href = "/home/{{username}}"> Home </a></li>
          <li><a href = "/groupList/{{username}}"> My Groups </a></li>
         <li><a href = "/userview/{{username}}"> {{username}}'s Profile </a></li>
-        <li><a href = "/notifications/{{username}}"> Notifications ({{user.notifications.length}}) </a></li>
-        <li><a href="/logout/{{username}}">Logout</a></li>
+        <li><a href = "/notifications/{{username}}"> Notifications <span class="badge">{{user.notifications.length}}</span> </a></li>
+        <li><a href="/logout/{{username}}"> <span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
 
       </ul>
     </div><!--/.nav-collapse -->

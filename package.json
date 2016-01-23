@@ -38,6 +38,7 @@
     "handlebars": "latest",
     "map-stream": "0.0.6",
     "morgan": "~1.6.1",
+    "multer": "^1.1.0",
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.1.5",
     "semantic-ui": "^2.1.8",

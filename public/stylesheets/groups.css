@@ -126,7 +126,21 @@
     margin-top: 15px;
 }
 
+.glyphicon-log-out{
+    color: gray;
+    margin-right: 5px;
+}
 
+.glyphicon-log-out:hover{
+    color: white;
+    
+}
+
+.badge{
+
+    margin-top: -15px;
+    background-color: red !important;
+}
 
 
 
