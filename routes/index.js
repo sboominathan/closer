@@ -7,17 +7,8 @@ var fs = require("fs");
 
 var multer = require("multer");
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/Users/SoorajBoominathan/Documents/6.148/MainProject/the_vault/public/images')
-  },
-  filename: function (req, file, cb) {
-    console.log("renaming as " + req.params.username);
-    cb(null, req.params.username)
-  }
-})
-
-var upload = multer({ storage: storage });
+var storage = multer.memoryStorage()
+var upload = multer({ storage: storage })
 
 
 /* GET home page. */
@@ -178,12 +169,16 @@ router.post("/userinfo/:username", upload.single("profpic"), function(req,res,ne
  
   console.log(req.file);
 
-  fs.readFile(req.file.path, function(err, data){
+  /*fs.readFile(req.file.buffer, function(err, data){
 
     var imgBuf = new Buffer(data).toString("base64")
     db.users.update({user: username}, {$set:{profpic:imgBuf}});
 
-  })
+  })*/
+
+ var imgBuf = req.file.buffer;
+ imgBuf = new Buffer(imgBuf).toString("base64");
+ db.users.update({user: username}, {$set:{profpic:imgBuf}});
   
   db.users.find({user:username}).toArray(function(err, data) {
     var currUser = data[0];
