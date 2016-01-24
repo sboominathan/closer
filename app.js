@@ -58,10 +58,11 @@ io.on('connection', function (socket) {
       var nsp = io.of(namespace);
 
 
-      nsp.once('connection', function(socket){
-        console.log("hiya");
 
-        socket.on("username", function(msg){
+      nsp.on("connection", function(socket){
+
+        console.log("hiya");
+         socket.on("username", function(msg){
 
           console.log(msg);
 
@@ -87,6 +88,14 @@ io.on('connection', function (socket) {
 
         });
 
+
+      })
+
+
+      nsp.once('connection', function(socket){
+        console.log("hiya");
+
+       
 
         socket.on('chat message', function(msg){
 
