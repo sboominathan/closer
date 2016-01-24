@@ -58,11 +58,10 @@ io.on('connection', function (socket) {
       var nsp = io.of(namespace);
 
 
-
-      nsp.on("connection", function(socket){
-
+      nsp.once('connection', function(socket){
         console.log("hiya");
-         socket.on("username", function(msg){
+
+        socket.on("username", function(msg){
 
           console.log(msg);
 
@@ -74,6 +73,10 @@ io.on('connection', function (socket) {
               console.log("null found");
               activeMembers = [];
 
+            }
+
+            else{
+              activeMembers = group.activeMembers;
             }
 
             activeMembers.push(msg);
@@ -88,12 +91,6 @@ io.on('connection', function (socket) {
 
         });
 
-
-      })
-
-
-      nsp.once('connection', function(socket){
-        console.log("hiya");
 
        
 
