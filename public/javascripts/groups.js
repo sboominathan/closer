@@ -39,6 +39,7 @@ $(document).ready(function(){
 
 	  socket.on("username", function(msg){
 	  	console.log("new user active")
+	  	$("#activeUsers").empty();
 
 	  	for (var i=0; i<msg.length; i++){
 	  		$("#activeUsers").append($('<li>').text(msg[i]+" is active"));

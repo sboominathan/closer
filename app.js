@@ -63,6 +63,7 @@ io.on('connection', function (socket) {
 
         socket.on("username", function(msg){
 
+          socket.user = msg;
           console.log(msg);
 
           db.groups.find({groupName: groupname}).toArray(function(err, data){
@@ -79,7 +80,10 @@ io.on('connection', function (socket) {
               activeMembers = group.activeMembers;
             }
 
-            activeMembers.push(msg);
+            if (activeMembers.indexOf(msg)==-1){
+
+               activeMembers.push(msg);
+            }
 
             db.groups.update({groupName: groupname}, {$set:{activeMembers: activeMembers}});
 
@@ -107,6 +111,30 @@ io.on('connection', function (socket) {
           })
           nsp.emit("chat message", msg);
         });
+
+        socket.on("disconnect", function(){
+
+          db.groups.find({groupName: groupname}).toArray(function(err, data){
+
+            var group = data[0];
+            var inactiveUser = socket.user;
+            var activeMembers;
+            if (group.activeMembers != null){
+              console.log(inactiveUser);
+              activeMembers = group.activeMembers;
+              activeMembers.splice(activeMembers.indexOf(inactiveUser), 1)
+              db.groups.update({groupName: groupname}, {$set:{activeMembers: activeMembers}});
+              console.log("username emitted");
+              console.log(activeMembers);
+              nsp.emit("username", activeMembers);
+
+            }
+
+          })
+
+
+        })
+
       });
     
   
