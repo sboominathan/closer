@@ -65,26 +65,38 @@ router.post('/login', function(req, res, next) {
 
               	var matchArray;
               	var pos;
-         	 	db.matches.find({user: username}).toArray(function(err, data){
-         		matchArray = data[0].yes;
+         	    	db.matches.find({user: username}).toArray(function(err, data){
+         		    matchArray = data[0].yes;
                 pos = data[0].pos
                 
-    			var firstMatches = matchArray.slice(pos,pos+5);
+    		        var firstMatches = matchArray.slice(pos,pos+5);
     					  
                 var username = currUser.user;
-    			var groups = currUser.groups;
+    			      var groups = currUser.groups;
                 
                 //retrieve match objects given array of match names
                 var match_objects = [];
                 if (firstMatches.length==0){
                 res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
-            	}
+            	   }
 
                 for(var i = 0; i < firstMatches.length; i++) {
+                  
                   console.log("match " + firstMatches[i]);
-                  db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
-                    match_objects.push(data[0]);
-                    
+                  var currMatch = firstMatches[i];
+                  db.users.find({user: currMatch}).toArray(function(err, data) {
+                       var user = data[0];
+                      currMatch = data[0].user;
+                    db.profpics.find({user: currMatch}).toArray(function(err, profData) {
+                        
+                       
+                        console.log(user);
+                        console.log(profData[0].user);
+                        
+                        user["profpic"] = profData[0].profpic;
+                        match_objects.push(user);
+                         
+
                     //Check if match_objects contains all user objects referred to in first matches.
                     if( match_objects.length === firstMatches.length ) {
                       //Redirect to matches page
@@ -93,15 +105,18 @@ router.post('/login', function(req, res, next) {
                     };
                   });
 
-                };
-              });
+                });
+              };
             });
-       		}
+       		});
+        }
+
        		else{
        			res.render("signup", {title: "Closer", username: username});
        		}
-      	});
-      }
+      	
+      });
+    }
       else {
         res.render("index", {title: "Closer", username: username, message: "Sorry, your username/password combination is incorrect!"});
       }
@@ -304,14 +319,25 @@ router.post("/update/:username", function(req, res, next) {
 
         for(var i = 0; i < firstMatches.length; i++) {
           console.log("match " + firstMatches[i]);
-          db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
-            match_objects.push(data[0]);
-            
-            //Check if match_objects contains all user objects referred to in first matches.
-            if( match_objects.length === firstMatches.length ) {
+          var currMatch = firstMatches[i]
+          db.users.find({user: currMatch}).toArray(function(err, data) {
+            var user = data[0];
+            currMatch = data[0].user;
+
+            db.profpics.find({user: currMatch}).toArray(function(err, profData){
+
+              user["profpic"] = profData[0].profpic;
+              match_objects.push(user);
+
+              if( match_objects.length === firstMatches.length ) {
               //Redirect to matches page
               res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
-            };
+              };
+
+            })
+            
+            //Check if match_objects contains all user objects referred to in first matches.
+            
           });
         };
       });
@@ -355,8 +381,16 @@ router.get("/next/:username", function(req,res,next){
       var match_objects = [];
       for(var i = 0; i < firstMatches.length; i++) {
         console.log("match " + firstMatches[i]);
-        db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
-          match_objects.push(data[0]);
+        var currMatch = firstMatches[i];
+        db.users.find({user: currMatch}).toArray(function(err, data) {
+
+           var user = data[0];
+           currMatch = data[0].user;
+
+          db.profpics.find({user: currMatch}).toArray(function(err, profData){
+
+            user["profpic"] = profData[0].profpic;
+            match_objects.push(user);
           
           //Check if match_objects contains all user objects referred to in first matches.
           if( match_objects.length === firstMatches.length ) {
@@ -364,6 +398,9 @@ router.get("/next/:username", function(req,res,next){
             res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
 
           };
+
+          }) 
+          
         });
       };
     });
@@ -403,8 +440,17 @@ router.get("/previous/:username", function(req,res,next){
       var match_objects = [];
       for(var i = 0; i < firstMatches.length; i++) {
         console.log("match " + firstMatches[i]);
-        db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
-          match_objects.push(data[0]);
+        var currMatch = firstMatches[i];
+
+        db.users.find({user: currMatch}).toArray(function(err, data) {
+
+          var user = data[0];
+          currMatch = data[0].user;
+
+          db.profpics.find({user: currMatch}).toArray(function(err, profData){
+
+            vuser["profpic"] = profData[0].profpic;
+            match_objects.push(user);
           
           //Check if match_objects contains all user objects referred to in first matches.
           if( match_objects.length === firstMatches.length ) {
@@ -412,6 +458,10 @@ router.get("/previous/:username", function(req,res,next){
             res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
 
           };
+
+
+          })
+          
         });
       };
     });
@@ -433,7 +483,7 @@ router.get("/userview/:username", function(req, res, next) {
 
     db.profpics.find({user: username}).toArray(function(err, peeps){
 
-      res.render("userpage", {title: "Closer", user: user, courses: courses, profpic: peeps[0]});
+      res.render("userpage", {title: "Closer", user: user, courses: courses, profpic: peeps[0], courseNumber: courses.length});
 
     })
 		
@@ -471,14 +521,25 @@ router.get("/home/:username", function(req, res, next) {
         //retrieve match objects given array of match names
         for(var i = 0; i < firstMatches.length; i++) {
           console.log("match " + firstMatches[i]);
-          db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
-            match_objects.push(data[0]);
+          var currMatch = firstMatches[i];
+          db.users.find({user: currMatch}).toArray(function(err, data) {
+              
+            var user = data[0];
+            currMatch = data[0].user;
+
+            db.profpics.find({user: currMatch}).toArray(function(err, profData){
+
+              user["profpic"] = profData[0].profpic;
+              match_objects.push(user);
             
             //Check if match_objects contains all user objects referred to in first matches.
-            if( match_objects.length === firstMatches.length ) {
-              res.render("matches", {users: match_objects, username: username, groups: groups, user: currUser});
+              if( match_objects.length === firstMatches.length ) {
+                res.render("matches", {users: match_objects, username: username, groups: groups, user: currUser});
 
-            };
+              };
+
+            })
+
           });
         };
       });   
@@ -720,24 +781,31 @@ router.get("/removeUser/:username/:removingUser", function(req,res,next){
 
           for(var i = 0; i < firstMatches.length; i++) {
             console.log("match " + firstMatches[i]);
-            db.users.find({user: firstMatches[i]}).toArray(function(err, data) {
-              match_objects.push(data[0]);
+            var currMatch = firstMatches[i];
+            db.users.find({user: currMatch}).toArray(function(err, data) {
+              
+              var user = data[0];
+              currMatch = data[0].user;
+
+              db.profpics.find({user: currMatch}).toArray(function(err, profData){
+
+                user["profpic"] = profData[0].profpic;
+                match_objects.push(user);
               
               //Check if match_objects contains all user objects referred to in first matches.
               if( match_objects.length === firstMatches.length ) {
                 //Redirect to matches page
                 res.render("matches", {users: match_objects, username: username, groups: currUser.groups, user: currUser});
-              };
+                };
+              })
+
+              
             });
           };
-
-
 
     })
   })
 
 })
-
-
 
 module.exports = router;

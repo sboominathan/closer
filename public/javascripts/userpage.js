@@ -1,5 +1,6 @@
 $(document).ready( function() {
-    count = 1
+    var count = parseInt($(".coursecount").text());
+    console.log(count);
     
     $(document).on('focus', 'div.form-group-options div.input-group-option:last-child input', function() {
         var sInputGroupHtml = $(this).parent().html();

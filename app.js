@@ -57,18 +57,45 @@ io.on('connection', function (socket) {
 
       var nsp = io.of(namespace);
 
+
       nsp.once('connection', function(socket){
-        console.log("hello");
+        console.log("hiya");
+
+        socket.on("username", function(msg){
+
+          console.log(msg);
+
+          db.groups.find({groupName: groupname}).toArray(function(err, data){
+
+            var group = data[0];
+            var activeMembers;
+            if (group.activeMembers == null){
+              console.log("null found");
+              activeMembers = [];
+
+            }
+
+            activeMembers.push(msg);
+
+            db.groups.update({groupName: groupname}, {$set:{activeMembers: activeMembers}});
+
+            console.log("username emitted");
+            console.log(activeMembers);
+            nsp.emit("username", activeMembers);
+
+          });
+
+        });
+
+
         socket.on('chat message', function(msg){
 
           db.groups.find({groupName: groupname}).toArray(function(err, data){
 
             var group = data[0];
-            console.log(data[0]);
             var chatHistory = group.chat;
-            console.log(chatHistory);
             chatHistory.push(msg);
-            console.log(chatHistory);
+            
             db.groups.update({groupName: groupname}, {$set:{chat: chatHistory}});
 
           })
@@ -83,15 +110,17 @@ io.on('connection', function (socket) {
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/views'));
 var exphbs = require('express-handlebars');
 app.engine('.hbs', exphbs({extname: '.hbs'}));
 
 var hbs = exphbs.create({
     // Specify helpers which are only registered on this instance.
     helpers: {
-        getIndex: function (index) { return index.toString(); }    
-   }
+        getIndex: function (index) { return index.toString(); } 
+        }  
+   
+  
 });
 
 app.engine(".hbs", hbs.engine);

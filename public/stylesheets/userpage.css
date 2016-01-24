@@ -188,3 +188,7 @@ img{
 
 	color: white;
 }
+
+.coursecount{
+	display: none;
+}
